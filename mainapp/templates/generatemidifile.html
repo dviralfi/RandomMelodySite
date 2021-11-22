@@ -1,0 +1,53 @@
+{% extends "base.html" %} 
+
+{% block extra_css %}
+
+<script src="https://cdn.jsdelivr.net/combine/npm/tone@
+14.7.58,npm/@magenta/music@1.22.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.4.0"></script>
+
+{% endblock  %}
+
+
+{% block content %}       
+     
+     {% if file_path %}
+               <div class="midi-player-style">
+                    
+                    <midi-player  src={{ file_path }} sound-font visualizer="#myPianoRollVisualizer">> </midi-player>
+                         <br>
+                    <midi-visualizer 
+                    
+                    type="piano-roll" 
+                    id="myPianoRollVisualizer" 
+                    src= {{file_path}} >
+
+                    </midi-visualizer>
+
+               </div>
+
+     {% endif %}
+
+
+<h2 class="oval-button"><a href="/" >&#129076;&#129076;&#129076;Generate Something Else!</a></h2>
+
+{% endblock  %}
+
+
+{% block  filebutton %}
+
+
+     {% if file_path %}
+          <div class="generate-file-button" id="filebutton">
+               <a href={{file_path}} download> Click to download your MIDI file </a> 
+          </div>
+
+
+
+          <div>
+               <h2 style="text-align=center; padding:30px;">Your file name is : {{file_name}}</h2>
+          </div>
+     {% endif %}
+
+     <h2><a href="/convertmidi"><i><u> Convert here MIDI to MP3 ! &#129078;&#129078;&#129078;</u></i></a></h2>
+
+{% endblock  %}

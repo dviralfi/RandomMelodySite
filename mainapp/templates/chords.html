@@ -1,0 +1,51 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<h2>Find Chords And Chord Progressions</h2>
+
+<form method="POST" action="/chords">
+
+{% csrf_token %}
+
+    <label for="Types">Chord Type:</label>
+        <select name="Types">
+        
+            {% for type in chord_types %}
+                <option value={{type}}>{{type}}</option>
+            {% endfor %}
+
+        </select>
+
+    <label for="Notes">Chord Root Note:</label>
+        <select name="Notes">
+        
+            {% for key in chromatic_keys %}
+                <option value={{key}}>{{key}}</option>
+            {% endfor %}
+
+        </select>
+
+    <br><br>
+    <input type="submit" value="Submit">
+    
+    
+</form>
+
+
+
+<div>
+<ul>
+<br>
+
+    {% if chord_notes %}
+        <p style="display : inline-block;">{{chord_note}} {{chord_type}} Chord Notes:</p>
+        {% for note in chord_notes %}
+            <p style="display : inline-block;margin-right:-15px;font-size:25px;">{{note}}</p>
+        {% endfor %}
+    {% endif %}
+</ul>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<h2>Find Chord Progressions:</h2>
+
+
+
+{% if not chords_dict %}
+    <div class="django-form">
+
+        <form method="POST" action="/chordprogs">
+
+            {% csrf_token %}
+            {{ atmos_form.as_p }}
+            <br><br>
+            <input class="generate-file-button" type="submit" value = "Find chord progressions !">
+            
+        </form>
+
+    </div>
+{% endif %}
+
+<div>
+    
+    {% if chords_dict %}
+        
+        <p> {{atmosphere}} chord progressions in {{scale_key}} {{scale_type}}:<br></p>
+       
+        <br>
+        The notes of each chord:
+        <br>
+
+        <ul>
+            
+            {% for chord in chords_dict %}
+
+                <li> {{chord}} </li>
+
+
+            {% endfor %}
+        </ul>
+        
+
+    {% endif %}
+    
+</div>
+
+
+{% endblock %}

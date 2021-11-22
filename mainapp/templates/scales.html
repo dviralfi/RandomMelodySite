@@ -1,0 +1,84 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<h2>Find Scales</h2>
+
+
+<form method="POST" action="/scales">
+
+{% csrf_token %}
+
+    <label for="Types">Scale Type:</label>
+        <select name="Types">
+        
+            {% for type in types %}
+                <option value={{type}}>{{type}}</option>
+            {% endfor %}
+
+        </select>
+
+    <label for="Keys">Scale Key:</label>
+        <select name="Keys">
+        
+            {% for key in chromatic_keys %}
+                <option value={{key}}>{{key}}</option>
+            {% endfor %}
+
+        </select>
+
+    <br><br>
+    <input type="submit" value="Submit">
+    
+</form>
+
+
+
+<div>
+    <ul>
+    <br>
+        {% if scale_notes %}
+
+            <p>{{scale_key}} {{scale_type}} <i>notes</i> : {{scale_notes}}</p>
+
+        {% endif %}
+    </ul>
+</div>
+
+<div>
+<ul >
+    {% if chords_type_in_scales_dict %}
+        {% for note, type in chords_type_in_scales_dict.items %}
+                
+                 <li style="display :block;style:inherit;">{{ note }} {{ type }} </p>
+                
+        {% endfor %}
+     {% endif %}
+<br>
+
+
+    {% if chords_dict %}
+</ul>          
+
+
+    <ul>
+            {% for key, value in chords_dict.items %}
+                
+                <li >Chord {{ key }} notes: </li>
+
+                {% for note in value %}
+                    <p style="display : inline-block;style:inherit;">{{note}} </p>
+                    
+                
+                {% endfor %}
+                <br>
+            {% endfor %}
+
+        {% endif %}
+
+         
+       
+   </ul>
+</div>
+
+
+{% endblock %}

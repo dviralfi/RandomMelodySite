@@ -1,0 +1,71 @@
+{% extends "base.html" %} 
+{% load static %}
+
+
+{% block extra_css %}
+        
+    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/homepage-styles.css' %}">
+
+    
+{% endblock %}
+
+
+
+
+{% block filebutton %}
+<!--
+    <div class="generate-file-button" id="filebutton">
+                <a href='/generatemidifile' > Click me to Generate Random Music ! </a> 
+    </div>
+-->
+
+<h2> Choose your erguments for the program:</h2>
+    <div class="django-form"> 
+
+        <form method="POST" action="/generatemidifile" name="random_arg_choices">
+            {% csrf_token %}
+            {{ random_arg_choices_form.as_p }}
+
+            <div class="input-args-chices">
+                <input class="generate-file-button" type="submit" value = "Click me to Generate Random Music">
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}
+
+
+{% block content %} 
+
+    <div class="home-description">
+
+        
+        
+            <a href="/about">
+            <p>
+            Developed to make music<br>fun, easy, and fast.
+            </p>
+            </a>
+
+
+            <a href="/about">
+            <p>
+            <strong>Random Melody</strong> is an Automatic Music Maker Website<br> for
+            musicians, composers <br>and everyone who loves music. 
+            </p>
+            </a>
+
+            <a href="/about">
+            <p>
+            Provides a MIDI file that contains totally<br> <i>random</i> <br><strong>chords</strong> and <strong>melody.</strong>
+            </p>
+            </a>
+    </div>
+
+
+
+   
+{% endblock %}
+
+

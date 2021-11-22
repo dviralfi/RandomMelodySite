@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+
+    <!--Importing CSS file -->
+    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/main-styles.css' %}">
+
+
+    {% block extra_css %}
+
+    {% endblock %}
+
+    <!-- Importing Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,900&family=Roboto:ital,wght@1,500&display=swap" rel="stylesheet">
+    
+    <!--Importing JS files -->
+    
+
+    <!-- Meta Information -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Melody</title>
+
+
+</head>
+
+<body>
+
+    
+
+     <!--The Navigation Bar -->
+    <div id="navbar">
+        {% block  navbar %}
+            
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}" id="site-name">Random Melody</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'scales' %}">Scales</a></li>
+                <li><a href="{% url 'chords' %}">Chords</a></li>
+                <li><a href="{% url 'chordprogs' %}">Chord Progressions</a></li>
+                <li><a href="{% url 'convertmidi' %}">Convert MIDI To MP3</a></li>
+                
+
+
+            </ul>
+        </nav>
+        {% endblock %}
+    </div>
+
+    <!--The Main Header -->
+    <div id="mainheader">
+         {% block  mainheader %}
+            <a href="{% url 'home' %}">
+                <h1>Random Melody - Random Music Maker</h1>
+                
+            </a>
+            <hr>
+        {% endblock %}
+    </div>
+
+    <!--The Rest of the Content -->
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>  
+
+
+    <!--The File Button -->
+    <div>
+        {% block filebutton %} {% endblock %} 
+    </div>
+  
+    <!--The Footer -->
+    <div class="clear">
+        {% block footer %}
+            <footer>This website is built by <a href="/contact"><i>Dvir Alafi</i></a></footer>
+        {% endblock%}
+    </div>
+    
+</body>
+
+</html>

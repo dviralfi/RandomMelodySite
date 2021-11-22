@@ -1,0 +1,315 @@
+body{
+    font-family: 'Roboto', sans-serif;   
+    /*background-color: rgba(0,0,0,0.85);*/
+    /*background-color: rgb(235, 253, 253);*/
+    /*background: linear-gradient(35deg, #CCFFFF,#85a9f7b7) fixed;*/
+    /*background: linear-gradient(35deg, #ffffff,#c1d5ff) fixed;*/
+
+    background: linear-gradient(60deg, #ffffff,#e5edff) fixed;
+    /*background: linear-gradient(60deg, #ddf2ff,#b9cfff) fixed; ORIGINAL */
+    
+    
+}
+
+h1{
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    font-style: italic;
+    font-size:70px;
+    text-align:center;
+    color: rgb(15, 64, 97);
+    margin-top:70px;
+    margin-bottom: 25px;
+
+    box-shadow: 0px 0px 10px 25px rgba(147, 221, 241, 0.808) ;
+    background-color: rgba(147, 221, 241, 0.808);
+    
+    transition: 1s;
+    }
+
+h1:hover{
+    font-size:65px;
+    color: rgb(0, 40, 116);
+    background-color: rgba(208, 242, 252, 0.808);
+    box-shadow: 0px 0px 10px 25px rgba(193, 241, 255, 0.808);
+}
+
+h2,h3{
+    font-size:35px;
+    color: rgb(15, 64, 97);
+    text-align: center;
+    left:0;
+    right: 0;
+
+}
+
+h4, h5, h6{
+    font-size:20px;
+    margin-left: 25px;
+    color: rgb(22, 80, 119);
+
+}
+
+a{
+    text-decoration: none;
+    color: rgb(17, 2, 150);
+    font-weight: 600;
+}
+
+h2 > a:hover{
+    color: rgba(8, 0, 75, 0.815);
+}
+p{
+    font-size: 20px;
+    margin-left: 30px;
+    color: rgb(1, 102, 160);
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+
+}
+
+
+.clear {
+    clear: both; 
+    /*
+    clear = clears the area of an element space, in the case both - right and left.
+    */
+    height: 60px; 
+    }
+
+
+footer{
+
+    position: fixed;
+    width: 100%;
+    margin: 0 auto;  
+    left: 0;
+    bottom: 0;
+    border-bottom: 5px solid #53dafc85;
+
+    padding: 2px;
+
+    
+    background-color: white;
+    color: rgb(12, 18, 97);
+    text-align: center;
+    max-width: 100%;
+
+    transition: 0.8s;
+}
+
+
+footer:hover{
+    bottom: 3px;
+    max-width: 100%;
+    padding: 2px;
+
+    background-color: #b9f0fda1;
+    border-bottom: 10px solid #53dafc85;
+}
+
+nav ul {
+    z-index: 9;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    list-style-type: none;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    /*
+    padding: 10px 10px 10px 30px;
+    width: 100%;
+    margin: 0px;
+    */
+    border: 8px dotted rgba(147, 221, 241, 0.808) ;
+    border-style:outset;
+    
+}
+
+nav li {
+
+    float: left;
+    border-right: 3px solid rgba(72, 100, 122, 0.61);
+    /*
+    width: 100%;
+    display: inline;
+    margin-right: 20px;
+    */
+}
+
+nav li a {
+    display: block;
+    color: rgb(17, 2, 150);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+nav li a:hover{
+    background-color: rgba(147, 221, 241, 0.808);
+  }
+
+
+nav ul:hover{
+    
+    box-shadow: 100px 100px 100px 100px rgba(222, 244, 250, 0.808) inset;
+
+}
+
+#site-name:hover{
+    
+    background-color: initial;
+    color: black;
+    font-size: 18px;
+    
+}
+#site-name{
+    transition: 1s;
+    color: mediumblue;
+}
+
+
+form{
+   
+    display: -ms-inline-flexbox;
+    padding: 10px;
+    text-align: center;
+    top: 30px;
+    border: 15px solid #60defd;
+    border-style:outset;
+    color: rgb(50, 108, 231);
+    position: relative;
+    width: fit-content;
+    margin: auto;
+}
+
+label{
+
+    margin: auto;
+}
+
+input{
+    margin: auto;
+    
+}
+
+.generate-file-button{
+
+    width: fit-content;
+    color: rgb(22, 96, 145);
+    font-weight: 600;
+    padding: 15px;
+    text-align: center;
+
+    font-size: 40px;
+    
+    margin-bottom: 80px;
+    margin: auto;
+
+    transition:0.7s;
+    
+}
+
+.generate-file-button:hover{
+    
+    
+    background-color: rgba(#60defd,0.7);
+    border: none;
+    padding: 30px;
+
+    text-align: center;
+
+    cursor: pointer;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+   
+}
+
+hr{
+    color: rgb(24, 51, 82);
+}
+
+.logo-images{
+    width: 30px;
+    height: 30px;
+    margin-top:5px;
+    transition: width 0.5s, height 0.5s;
+
+}
+
+.logo-images:hover{
+    width: 50px;
+    height: 50px;
+
+}
+
+
+
+#description-header{
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    font-weight: 600;
+    font-size:35px;
+    text-align:center;
+    text-shadow: 2px 1px rgb(143, 154, 255);
+    color: rgba(15, 64, 97, 0.767);
+    
+}
+
+
+.oval-button{
+    width: fit-content;
+    margin: auto;
+    background-color: rgba(28, 134, 255, 0.712);
+    border: none;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    text-decoration: none;
+    
+    border-radius: 50%;
+    font-size: 25x;
+
+    cursor: pointer;
+    transition: 0.5s;
+
+    margin-bottom: 20px;
+
+}
+
+.oval-button:hover{
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.24),0 10px 10px 0 rgba(0,0,0,0.19);
+    font-size: 30px;
+}
+
+
+img {
+    opacity: 0.8;
+  }
+  
+img:hover {
+    opacity: 1.0;
+  }
+
+
+.django-form>form{
+    text-align: left;
+    font-weight: bold;
+    color: blue;
+}
+
+
+.midi-player-style>midi-player {
+    margin: auto ;
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+
+
+
+.midi-player-style>midi-visualizer  {
+    margin: auto ;
+    width: 100%;
+    left: 0;
+    right: 0;
+}
