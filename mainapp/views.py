@@ -5,8 +5,11 @@ from django import forms
 from django.http import request
 from django.http.response import Http404
 from django.shortcuts import HttpResponse, redirect, render
-# sys.path.insert(0, 'C:/Users/IMOE001/Documents/PythonProjectsDvir') this is temporarily solution.
-# for Permanently solution do: export PYTHONPATH="$my/path/to/my/code"
+
+import sys,os
+
+sys.path.insert(0, os.path.dirname(os.getcwd())) # this is temporarily solution. # Adding the Folder that contains the RandomMelodyGenerator to the system path . never found better solution :/  
+
 from RandomMelody import RandoMMelodyGenerator
 from RandomMelody.RandoMMelodyGenerator import (ATMOSPHERE_DICT,
                                                 CHROMATIC_KEYS, SCALES_DICT)
