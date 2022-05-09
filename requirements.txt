@@ -1,3 +1,5 @@
-django==4.0.4
-midiutil>=1.2.1
-python >= 3.6
+asgiref==3.5.1
+Django==4.0.4
+MIDIUtil==1.2.1
+sqlparse==0.4.2
+tzdata==2022.1
