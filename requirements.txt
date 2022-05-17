@@ -5,7 +5,7 @@ django-heroku==0.3.1
 gunicorn==20.1.0
 MIDIUtil==1.2.1
 psycopg2==2.9.3
-git+github.com:dviralfi/RandomMelody.git#egg=RandomMelody
+git+https://github.com/dviralfi/RandomMelody.git#egg=RandomMelody
 sqlparse==0.4.2
 tzdata==2022.1
 whitenoise==6.1.0
