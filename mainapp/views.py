@@ -1,22 +1,20 @@
 from random import choice
-import random
 from django import forms
 
 from django.http import request
 from django.http.response import Http404
 from django.shortcuts import HttpResponse, redirect, render
 
-import sys,os
-
-sys.path.insert(0, os.path.dirname(os.getcwd())) # this is temporarily solution. # Adding the Folder that contains the RandomMelodyGenerator to the system path . never found better solution :/  
-
-from RandomMelody import RandoMMelodyGenerator
-from RandomMelody.RandoMMelodyGenerator import (ATMOSPHERE_DICT,
-                                                CHROMATIC_KEYS, SCALES_DICT)
+from random_melody_module import random_melody_generator #from the package import the module
+                                                
 from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_URL
 
 from .forms import RandomArgsChoose,AtmosForm
 
+
+ATMOSPHERE_DICT = random_melody_generator.ATMOSPHERE_DICT
+CHROMATIC_KEYS = random_melody_generator.CHROMATIC_KEYS
+SCALES_DICT = random_melody_generator.SCALES_DICT
 
 def home(request):
 
@@ -41,15 +39,15 @@ def chords(request):
         chord_note = request.POST.get('Notes', None)
         chord_type = request.POST.get('Types', None)
 
-        chromatic_keys = RandoMMelodyGenerator.CHROMATIC_KEYS
+        chromatic_keys = random_melody_generator.CHROMATIC_KEYS
 
-        chord_notes = RandoMMelodyGenerator.get_chord_notes_by_note_and_type(chord_note,chord_type)
+        chord_notes = random_melody_generator.get_chord_notes_by_note_and_type(chord_note,chord_type)
 
         try:
             context = {
                 "chromatic_keys":chromatic_keys,
-                "chord_types":list(RandoMMelodyGenerator.CHORDS_SEQUENCE_DICT.keys()),
-                "chord_seqs":RandoMMelodyGenerator.CHORDS_SEQUENCE_DICT.values(),
+                "chord_types":list(random_melody_generator.CHORDS_SEQUENCE_DICT.keys()),
+                "chord_seqs":random_melody_generator.CHORDS_SEQUENCE_DICT.values(),
 
                 "chord_notes":chord_notes,
                 "chord_note":chord_note,
@@ -63,9 +61,9 @@ def chords(request):
     else:
         context = {
 
-        "chromatic_keys":RandoMMelodyGenerator.CHROMATIC_KEYS,
-        "chord_types":RandoMMelodyGenerator.CHORDS_SEQUENCE_DICT.keys(),
-        "chord_seqs":RandoMMelodyGenerator.CHORDS_SEQUENCE_DICT.values(),
+        "chromatic_keys":random_melody_generator.CHROMATIC_KEYS,
+        "chord_types":random_melody_generator.CHORDS_SEQUENCE_DICT.keys(),
+        "chord_seqs":random_melody_generator.CHORDS_SEQUENCE_DICT.values(),
 
                   }
         return render(request, 'chords.html',context)
@@ -100,7 +98,7 @@ def generatemidifile(request):
 
             django_midi_files_path = str(BASE_DIR)+"/"+str(MAINAPP_NAME)+str(STATIC_URL)+str(MAINAPP_NAME)+"/MidiFiles"
 
-            path =  RandoMMelodyGenerator.main(
+            path =  random_melody_generator.main(
                 midi_file_path = django_midi_files_path,chords_atmosphere=chords_atmosphere,
                 scale_key=scale_key,scale_type=scale_type)
             name = path.split("/")[-1]
@@ -125,23 +123,23 @@ def scales(request):
 
     if request.method == 'POST':
         
-        chromatic_keys = RandoMMelodyGenerator.CHROMATIC_KEYS
-        types = RandoMMelodyGenerator.SCALES_DICT.keys
+        chromatic_keys = random_melody_generator.CHROMATIC_KEYS
+        types = random_melody_generator.SCALES_DICT.keys
 
         scale_key = request.POST.get('Keys', None)
         scale_type = request.POST.get('Types', None)
 
-        scale_notes = RandoMMelodyGenerator.get_scale_notes(scale_key,scale_type)
-        roman_letters_value_dict = RandoMMelodyGenerator.ROMAN_LETTERS_VALUE_DICT
+        scale_notes = random_melody_generator.get_scale_notes(scale_key,scale_type)
+        roman_letters_value_dict = random_melody_generator.ROMAN_LETTERS_VALUE_DICT
     
 
-        chords_dict = RandoMMelodyGenerator.get_chords_of_scale(scale_key,scale_type)
+        chords_dict = random_melody_generator.get_chords_of_scale(scale_key,scale_type)
 
         chords_type_in_scales_dict = {}
         if scale_type.find("minor") > 0 or scale_type.find("minor") == 0:
-            chords_types_list = RandoMMelodyGenerator.MINOR_CHORDS_TYPES
+            chords_types_list = random_melody_generator.MINOR_CHORDS_TYPES
         else:
-            chords_types_list = RandoMMelodyGenerator.MAJOR_CHORDS_TYPES
+            chords_types_list = random_melody_generator.MAJOR_CHORDS_TYPES
 
         for c, type in enumerate(chords_types_list):
             chords_type_in_scales_dict[scale_notes[c]] = type
@@ -173,8 +171,8 @@ def scales(request):
 
     else: #  request.method == 'GET'...
 
-        chromatic_keys = RandoMMelodyGenerator.CHROMATIC_KEYS
-        types = RandoMMelodyGenerator.SCALES_DICT.keys()
+        chromatic_keys = random_melody_generator.CHROMATIC_KEYS
+        types = random_melody_generator.SCALES_DICT.keys()
 
         context = {
         "chromatic_keys":chromatic_keys,
@@ -204,12 +202,12 @@ def chordprogs(request):
                 scale_type = choice(list(SCALES_DICT.keys()))
 
             progression = ATMOSPHERE_DICT[atmosphere].split('-')
-            progression = [RandoMMelodyGenerator.ROMAN_LETTERS_VALUE_LIST.index(p.upper()) for p in progression]
-            scale_notes = RandoMMelodyGenerator.get_scale_notes(scale_key=scale_key,scale_type=scale_type)
+            progression = [random_melody_generator.ROMAN_LETTERS_VALUE_LIST.index(p.upper()) for p in progression]
+            scale_notes = random_melody_generator.get_scale_notes(scale_key=scale_key,scale_type=scale_type)
             
-            chords_dict = [RandoMMelodyGenerator.get_chord_notes_by_num(scale_notes,x) for x in progression ]
+            chords_dict = [random_melody_generator.get_chord_notes_by_num(scale_notes,x) for x in progression ]
             
-            #chords_type_list = [RandoMMelodyGenerator.CHORDS_TYPE_IN_SCALES_LIST[progression.index(t)+1] for t in progression]
+            #chords_type_list = [random_melody_generator.CHORDS_TYPE_IN_SCALES_LIST[progression.index(t)+1] for t in progression]
             #first_notes_list = [c[0] for c in chords_dict]
 
 

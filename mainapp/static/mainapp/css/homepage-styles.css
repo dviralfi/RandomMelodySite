@@ -1,23 +1,49 @@
 .home-description{
 
-    background-image: url('../images/bgimg22.jpg') ;
+    background-image: url('../images/bgimg.jpg') ;
     
     background-repeat: repeat-x;
 
     /*background: linear-gradient(135deg, rgb(49, 173, 255),#9cd8ff) fixed;*/
-    position: relative;
+    position:relative;
     display: flex;
     border-radius:55%;
     width: fit-content;
     margin: 0 auto;
-    margin-top: 40px;
+    
+    margin-top: 60px;
     margin-bottom: 60px;
     
-
+    text-align: center;
     padding: 40px;
 
-    box-shadow: 0 10px 12px 0 rgba(156, 161, 253, 0.795),0 17px 70px 0 rgba(12, 170, 162, 0.19) ;
+    box-shadow: 0 10px 12px 0 rgba(196, 199, 248, 0.795),0 17px 70px 0 rgba(12, 170, 162, 0.19) ;
 }
+
+
+
+
+/* On smaller screens, where height is less than 450px, change the width of some classes */
+@media screen and (max-width: 500px) {
+
+    .home-description{
+    box-shadow:none;
+    background-image: none;
+    text-align: center;
+    
+}
+        
+
+    
+    #description1{display:none;}
+    #description2{display:none;}
+    #description3{font-size: 25px;
+        color: #444;}
+
+}
+
+    
+
 
 .home-description>a>p{
     margin-left: 20px;
@@ -29,7 +55,7 @@
 .home-description>a>p:hover{
     
     cursor: pointer;
-    font-size: 20px;
+    color: #ff0040;
 }
 
 .home-description>a{
@@ -41,5 +67,5 @@
 .input-args-chices{
     text-align: center;
     font-size: 40px;
-    color: rgb(0, 0, 102);
+    color:#444;
 }

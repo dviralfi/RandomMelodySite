@@ -1,5 +1,10 @@
 from django import forms
-from RandomMelody.RandoMMelodyGenerator import ATMOSPHERE_DICT, SCALES_DICT,CHROMATIC_KEYS
+from random_melody_module import random_melody_generator
+
+ATMOSPHERE_DICT = random_melody_generator.ATMOSPHERE_DICT
+CHROMATIC_KEYS = random_melody_generator.CHROMATIC_KEYS
+SCALES_DICT = random_melody_generator.SCALES_DICT
+
 
 HTML_SPACE = '&nbsp;'
 midi_file_path_help_text = HTML_SPACE+HTML_SPACE+'Path to save the Midi file.'

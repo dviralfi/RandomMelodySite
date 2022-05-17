@@ -3,3 +3,4 @@ Django==4.0.4
 MIDIUtil==1.2.1
 sqlparse==0.4.2
 tzdata==2022.1
+git+https://github.com/dviralfi/RandomMelody #My python module

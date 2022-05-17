@@ -5,37 +5,31 @@ body{
     /*background: linear-gradient(35deg, #CCFFFF,#85a9f7b7) fixed;*/
     /*background: linear-gradient(35deg, #ffffff,#c1d5ff) fixed;*/
 
-    background: linear-gradient(60deg, #ffffff,#e5edff) fixed;
+    background: white fixed;
     /*background: linear-gradient(60deg, #ddf2ff,#b9cfff) fixed; ORIGINAL */
-    
+    margin-left: 30px;
+
     
 }
 
 h1{
     font-family: 'Zen Kaku Gothic Antique', sans-serif;
     font-style: italic;
-    font-size:70px;
+    font-size:50px;
+    top: 0;
+    color: #212136;
     text-align:center;
-    color: rgb(15, 64, 97);
-    margin-top:70px;
-    margin-bottom: 25px;
-
-    box-shadow: 0px 0px 10px 25px rgba(147, 221, 241, 0.808) ;
-    background-color: rgba(147, 221, 241, 0.808);
     
-    transition: 1s;
+
+    
+    background-color: white;
     }
 
-h1:hover{
-    font-size:65px;
-    color: rgb(0, 40, 116);
-    background-color: rgba(208, 242, 252, 0.808);
-    box-shadow: 0px 0px 10px 25px rgba(193, 241, 255, 0.808);
-}
 
 h2,h3{
     font-size:35px;
-    color: rgb(15, 64, 97);
+    
+    color: #212136;
     text-align: center;
     left:0;
     right: 0;
@@ -45,23 +39,24 @@ h2,h3{
 h4, h5, h6{
     font-size:20px;
     margin-left: 25px;
-    color: rgb(22, 80, 119);
+    color: #212136;
 
 }
 
 a{
     text-decoration: none;
-    color: rgb(17, 2, 150);
+    color: white;
     font-weight: 600;
 }
 
 h2 > a:hover{
-    color: rgba(8, 0, 75, 0.815);
+    color: #212136;
 }
+
 p{
     font-size: 20px;
     margin-left: 30px;
-    color: rgb(1, 102, 160);
+    color: #212136;
     font-family: 'Zen Kaku Gothic Antique', sans-serif;
 
 }
@@ -83,13 +78,12 @@ footer{
     margin: 0 auto;  
     left: 0;
     bottom: 0;
-    border-bottom: 5px solid #53dafc85;
+    border-bottom: 5px solid #212136;
 
     padding: 2px;
-
     
-    background-color: white;
-    color: rgb(12, 18, 97);
+    background-color: #212136;
+    color: white;
     text-align: center;
     max-width: 100%;
 
@@ -97,14 +91,7 @@ footer{
 }
 
 
-footer:hover{
-    bottom: 3px;
-    max-width: 100%;
-    padding: 2px;
 
-    background-color: #b9f0fda1;
-    border-bottom: 10px solid #53dafc85;
-}
 
 nav ul {
     z-index: 9;
@@ -116,20 +103,20 @@ nav ul {
     background-color: white;
     margin: 0;
     padding: 0;
+    
     /*
     padding: 10px 10px 10px 30px;
     width: 100%;
     margin: 0px;
     */
-    border: 8px dotted rgba(147, 221, 241, 0.808) ;
-    border-style:outset;
+    
     
 }
 
 nav li {
 
     float: left;
-    border-right: 3px solid rgba(72, 100, 122, 0.61);
+    border-right: 1px solid gray;
     /*
     width: 100%;
     display: inline;
@@ -139,7 +126,7 @@ nav li {
 
 nav li a {
     display: block;
-    color: rgb(17, 2, 150);
+    color: #E94E75;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -147,45 +134,47 @@ nav li a {
   }
 
 nav li a:hover{
-    background-color: rgba(147, 221, 241, 0.808);
+    color: #ff0040;
   }
 
-
+/*
 nav ul:hover{
     
-    box-shadow: 100px 100px 100px 100px rgba(222, 244, 250, 0.808) inset;
+    box-shadow: 100px 100px 100px 100px lightblue inset;
 
 }
+*/
 
-#site-name:hover{
-    
-    background-color: initial;
-    color: black;
-    font-size: 18px;
-    
-}
 #site-name{
-    transition: 1s;
-    color: mediumblue;
+    font-size: 31px;
 }
 
 
 form{
-   
     display: -ms-inline-flexbox;
     padding: 10px;
     text-align: center;
     top: 30px;
-    border: 15px solid #60defd;
+    border: 15px solid #212136;
     border-style:outset;
-    color: rgb(50, 108, 231);
+    color: #ff0040;;
     position: relative;
     width: fit-content;
     margin: auto;
 }
 
-label{
 
+  /* On smaller screens, where height is less than 450px, change the width of some classes */
+  @media screen and (max-width: 450px) {
+    form {width:70%;}
+    .generate-file-button{ font-size: 5px;}
+
+    
+  }
+
+
+label{
+    
     margin: auto;
 }
 
@@ -196,37 +185,32 @@ input{
 
 .generate-file-button{
 
-    width: fit-content;
-    color: rgb(22, 96, 145);
+   
+    
+    color: #212136;
     font-weight: 600;
     padding: 15px;
     text-align: center;
-
-    font-size: 40px;
-    
-    margin-bottom: 80px;
-    margin: auto;
-
-    transition:0.7s;
+    bottom: 20%;
+    font-size: 10px;
+    transition: ease-in-out;
     
 }
 
 .generate-file-button:hover{
     
     
-    background-color: rgba(#60defd,0.7);
+    background-color: rgba(#212136,0.7);
     border: none;
-    padding: 30px;
-
-    text-align: center;
-
+    font-size: 30px;
+    
     cursor: pointer;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
    
 }
 
 hr{
-    color: rgb(24, 51, 82);
+    color: #212136;
 }
 
 .logo-images{
@@ -250,8 +234,8 @@ hr{
     font-weight: 600;
     font-size:35px;
     text-align:center;
-    text-shadow: 2px 1px rgb(143, 154, 255);
-    color: rgba(15, 64, 97, 0.767);
+    text-shadow: 2px 1px lightblue;
+    color: #212136;
     
 }
 
@@ -259,7 +243,7 @@ hr{
 .oval-button{
     width: fit-content;
     margin: auto;
-    background-color: rgba(28, 134, 255, 0.712);
+    background-color: #212136;
     border: none;
     color: white;
     padding: 30px;
@@ -294,7 +278,7 @@ img:hover {
 .django-form>form{
     text-align: left;
     font-weight: bold;
-    color: blue;
+    color: rgb(255, 255, 255);
 }
 
 
