@@ -6,7 +6,8 @@ gunicorn==20.1.0
 MIDIUtil==1.2.1
 psycopg2==2.9.3
 #git+github.com/dviralfi/RandomMelody.git#egg=random-melody-generator
-git+https://dviralfi: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@github.com/dviralfi/RandomMelody.git#egg=random-melody-generator
+#git+https://dviralfi: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@github.com/dviralfi/RandomMelody.git#egg=random-melody-generator
 sqlparse==0.4.2
 tzdata==2022.1
 whitenoise==6.1.0
+random-melody-generator @ git+https://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@github.com/dviralfi/RandomMelody.git
