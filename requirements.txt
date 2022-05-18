@@ -10,7 +10,6 @@ tzdata==2022.1
 whitenoise==6.1.0
 
 
-#git+github.com/dviralfi/RandomMelody.git#egg=random-melody-generator
-#git+https://dviralfi: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@github.com/dviralfi/RandomMelody.git#egg=random-melody-generator
-#random-melody-generator @ git+https://@github.com/dviralfi/RandomMelody.git
-random-melody-generator @ git+https://dviralfi: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@github.com/dviralfi:da0547641124/RandomMelody.git
+
+#random-melody-generator @ git+https://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@github.com/dviralfi/RandomMelody.git
+random-melody-generator @ git+https://$dviralfi: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@github.com/dviralfi/RandomMelody.git
