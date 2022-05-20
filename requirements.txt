@@ -13,4 +13,4 @@ whitenoise==6.1.0
 #random-melody-generator@ git+https://$dviralfi:${GITHUB_TOKEN}@github.com/dviralfi/RandomMelody.git
 #random-melody-generator @ git+https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/dviralfi/RandomMelody.git
 
-random-melody-generator @ git+https://${GITHUB_TOKEN}@github.com/dviralfi/RandomMelody.git
+random-melody-generator @ git+https://oauth:${GITHUB_TOKEN}@github.com/dviralfi/RandomMelody.git
