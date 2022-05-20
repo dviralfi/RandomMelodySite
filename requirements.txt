@@ -10,4 +10,4 @@ tzdata==2022.1
 whitenoise==6.1.0
 
 #random-melody-generator @ git+https://${GITHUB_TOKEN}@github.com/dviralfi/RandomMelody.git
-random-melody-generator @ git+https://${GITHUBTOKEN}@github.com/dviralfi/RandomMelody
+random-melody-generator @ git+https://dviralfi:${GITHUBTOKEN}@github.com/dviralfi/RandomMelody
