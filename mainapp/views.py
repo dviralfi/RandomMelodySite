@@ -75,6 +75,7 @@ def convert_midi(request):
 
 
 def generatemidifile(request):
+    print('GEnerate Me Midi File!!!!!!!!!!!!!!!!')
     random_args = RandomArgsChoose()
     path = ''
     name = ''
