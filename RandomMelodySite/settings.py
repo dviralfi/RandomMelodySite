@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC+3'
 
 USE_I18N = True
 
@@ -123,10 +123,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "mainapp/static/mainapp")
+#STATIC_ROOT = os.path.join(BASE_DIR, "mainapp/static/mainapp")
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MAINAPP_NAME = 'mainapp'
-MIDIFILES_PATH = os.path.join(BASE_DIR,MAINAPP_NAME,STATIC_URL,MAINAPP_NAME)+"/MidiFiles"
+MIDIFILES_PATH = STATIC_ROOT+"/MidiFiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
