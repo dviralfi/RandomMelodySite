@@ -1,3 +1,4 @@
+import os
 from random import choice
 from django import forms
 
@@ -7,7 +8,7 @@ from django.shortcuts import HttpResponse, redirect, render
 
 from random_melody_module import random_melody_generator #from the package import the module
                                                 
-from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_URL
+from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_URL,MIDIFILES_PATH
 
 from .forms import RandomArgsChoose,AtmosForm
 
@@ -96,7 +97,7 @@ def generatemidifile(request):
                 scale_type = choice(list(SCALES_DICT.keys()))
             
 
-            django_midi_files_path = str(BASE_DIR)+"/"+str(MAINAPP_NAME)+str(STATIC_URL)+str(MAINAPP_NAME)+"/MidiFiles"
+            django_midi_files_path = MIDIFILES_PATH
 
             path =  random_melody_generator.main(
                 midi_file_path = django_midi_files_path,chords_atmosphere=chords_atmosphere,

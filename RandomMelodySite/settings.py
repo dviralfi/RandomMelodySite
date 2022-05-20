@@ -126,6 +126,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "mainapp/static/mainapp")
 
 MAINAPP_NAME = 'mainapp'
+MIDIFILES_PATH = os.path.join(BASE_DIR,MAINAPP_NAME,STATIC_URL,MAINAPP_NAME)+"/MidiFiles"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
