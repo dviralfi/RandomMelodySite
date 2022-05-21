@@ -9,4 +9,4 @@ sqlparse==0.4.2
 tzdata==2022.1
 whitenoise==6.1.0
 
-random-melody-generator @ git+https://oauth2:${GITHUB_TOKEN}@github.com/dviralfi/RandomMelody.git
+random-melody-generator @ git+https://$dviralfi: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@github.com/dviralfi/RandomMelody.git
