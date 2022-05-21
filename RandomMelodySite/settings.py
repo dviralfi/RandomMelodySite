@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4dtbtoty^)#@2l!nwvfr_o4tj!&s4zx5txdl*ogi#qczrmx6!4'
+
+SECRET_KEY = os.environ.get('RM_SITE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC+3'
+TIME_ZONE = 'Israel'
 
 USE_I18N = True
 
@@ -123,8 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "mainapp/static/mainapp"
-MIDIFILES_PATH = STATIC_ROOT / 'MidiFiles'
+STATIC_ROOT = os.path.join(BASE_DIR, "mainapp/static/mainapp")
+MIDIFILES_PATH = os.path.join(STATIC_ROOT, 'MidiFiles')
 
 
 MAINAPP_NAME = 'mainapp'
