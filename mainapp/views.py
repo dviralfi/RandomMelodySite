@@ -104,7 +104,7 @@ def generatemidifile(request):
                 midi_file_path = django_midi_files_path,chords_atmosphere=chords_atmosphere,
                 scale_key=scale_key,scale_type=scale_type)
             name = path.split("/")[-1]
-            path =  str(STATIC_URL)+str(MAINAPP_NAME)+"/MidiFiles/"+ name
+            path = MIDIFILES_PATH +'/'+ name
             
         context = {
             "file_path":path,
