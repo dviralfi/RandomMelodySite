@@ -98,13 +98,15 @@ def generatemidifile(request):
                 scale_type = choice(list(SCALES_DICT.keys()))
             
 
-            django_midi_files_path = MIDIFILES_PATH
+            #django_midi_files_path = MIDIFILES_PATH
+            django_midi_files_path = 'tmp' # because Heroku is not supporting files creating
 
             path =  random_melody_generator.main(
                 midi_file_path = django_midi_files_path,chords_atmosphere=chords_atmosphere,
                 scale_key=scale_key,scale_type=scale_type)
             name = path.split("/")[-1]
-            path = MIDIFILES_PATH +'/'+ name
+            #path = django_midi_files_path +'/'+ name
+            path = django_midi_files_path +'/'+ name
             
         context = {
             "file_path":path,
