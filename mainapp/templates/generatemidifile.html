@@ -38,7 +38,7 @@
 
      {% if file_path %}
           <div class="generate-file-button" id="filebutton">
-               <a href={{file_path}} download> Click to download your MIDI file </a> 
+               <a href={% static {{file_path}} %} download> Click to download your MIDI file </a> 
           </div>
 
 
