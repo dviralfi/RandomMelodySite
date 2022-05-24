@@ -45,8 +45,8 @@ h4, h5, h6{
 
 a{
     text-decoration: none;
-    color: white;
-    font-weight: 600;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
 }
 
 h2 > a:hover{
@@ -189,7 +189,8 @@ input{
     
     color: #212136;
     font-weight: 600;
-    padding: 15px;
+    padding: 40px;
+
     text-align: center;
     bottom: 20%;
     font-size: inherit;

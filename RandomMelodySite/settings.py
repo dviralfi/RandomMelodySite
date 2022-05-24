@@ -27,6 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-4dtbtoty^)#@2l!nwvfr_o4tj!&s4zx5txdl*ogi#qczrmx6!4"
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# True - UnDeployed
+# False - Deployed
 DEBUG = False
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1","https://random-melody-site.herokuapp.com/"]
@@ -121,12 +123,34 @@ USE_L10N = True
 USE_TZ = True
 
 
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
+
+# STATIC_URL' is for Django to {% load static %} and more static refs in html templates. 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "mainapp/static/mainapp")
-MIDIFILES_PATH = os.path.join(STATIC_ROOT, 'MidiFiles')
+
+
+# 'STATIC_ROOT' : single root directory from where the Django application will copy all static files in your project to 'staticfiles' folder and serve the static files *AFTER DEPLOYMENT* in production:
+STATIC_ROOT = ''
+
+if DEBUG == True: # if the site isn't Deployed yet:
+    STATIC_ROOT  = os.path.join(BASE_DIR, 'mainapp', "static")
+
+if DEBUG == False: # if the site is Deployed:
+    STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+
+MIDIFILES_PATH = os.path.join(STATIC_ROOT,'mainapp','MidiFiles')
+
+
+
+
 
 
 MAINAPP_NAME = 'mainapp'

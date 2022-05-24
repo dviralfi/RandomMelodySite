@@ -75,7 +75,7 @@ def convert_midi(request):
 
 
 def generatemidifile(request):
-    print('GEnerate Me Midi File!!!!!!!!!!!!!!!!')
+    print('Generate Midi File !!!')
     random_args = RandomArgsChoose()
     path = ''
     name = ''
@@ -105,15 +105,19 @@ def generatemidifile(request):
                 midi_file_path = django_midi_files_path,chords_atmosphere=chords_atmosphere,
                 scale_key=scale_key,scale_type=scale_type)
             name = path.split("/")[-1]
-            #path = django_midi_files_path +'/'+ name
-            path = django_midi_files_path +'/'+ name
-            
+
+
+            print("path to midi file: ",path)
+
+            path = os.path.join(MIDIFILES_PATH, name)
+            print("Path Exists: ",os.path.exists(path))
+
         context = {
             "file_path":path,
             "file_name":name,
         }
 
-
+        print('return: ',path)
         return render(request,'generatemidifile.html',context)
 
     else:

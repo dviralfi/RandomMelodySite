@@ -37,15 +37,11 @@
 
 
      {% if file_path %}
+
           <div class="generate-file-button" id="filebutton">
-               <a href={% static {{file_path}} %} download> Click to download your MIDI file </a> 
+               <a href= {{file_path}} download> Click to download your MIDI file </a> 
           </div>
 
-
-
-          <div>
-               <h2 style="text-align:center; padding:30px;">Your file name is : {{file_name}}</h2>
-          </div>
      {% endif %}
 
      <h2><a href="/convertmidi"><i><u> Convert here MIDI to MP3 ! &#129078;&#129078;&#129078;</u></i></a></h2>
