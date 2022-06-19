@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY = os.environ.get('RM_SITE_SECRET_KEY')
 
-SECRET_KEY = str(os.environ['RM_SITE_SECRET_KEY'])
+#SECRET_KEY = str(os.environ['RM_SITE_SECRET_KEY'])
+SECRET_KEY = os.getenv("RM_SITE_SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # True - UnDeployed
