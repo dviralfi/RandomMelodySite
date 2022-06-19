@@ -9,7 +9,7 @@
 
 
 {% block content %}       
-     
+
      {% if file_path %}
                <div class="midi-player-style">
                     
@@ -38,8 +38,8 @@
 
      {% if file_path %}
 
-          <div>
-               <a href= {{file_path}} download> Click to download your MIDI file </a> 
+          <div id='download-button'>
+               <a href= {{file_path}} download> Download MIDI file </a> 
           </div>
 
      {% endif %}

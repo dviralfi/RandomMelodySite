@@ -257,6 +257,10 @@ img:hover {
 }
 
 
+#download-button{
+    text-align: center;
+}
+
 .midi-player-style>midi-player {
     margin: auto ;
     width: 100%;

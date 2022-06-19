@@ -14,6 +14,7 @@ from pathlib import Path
 import django_heroku
 
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECRET_KEY = os.environ.get('RM_SITE_SECRET_KEY')
-SECRET_KEY = "django-insecure-4dtbtoty^)#@2l!nwvfr_o4tj!&s4zx5txdl*ogi#qczrmx6!4"
+
+SECRET_KEY = os.environ['RM_SITE_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # True - UnDeployed
@@ -43,9 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'mainapp',
 
     'storages',
+
+    'django_extensions', # for validating templates, tests, etc
 ]
 
 MIDDLEWARE = [
@@ -125,7 +130,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-
+MAINAPP_NAME = 'mainapp'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -137,32 +142,21 @@ STATIC_URL = '/static/'
 
 
 # 'STATIC_ROOT' : single root directory from where the Django application will copy all static files in your project to 'staticfiles' folder and serve the static files *AFTER DEPLOYMENT* in production:
-STATIC_ROOT = ''
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static") # Default  
 
 if DEBUG == True: # if the site isn't Deployed yet:
-    STATIC_ROOT  = os.path.join(BASE_DIR, 'mainapp', "static")
+    STATIC_ROOT  = os.path.join(BASE_DIR, MAINAPP_NAME, "static")
 
 if DEBUG == False: # if the site is Deployed:
     STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
 
 
-
-
-MIDIFILES_PATH = os.path.join(STATIC_ROOT,'mainapp','MidiFiles')
-
-
-
-
-
-
-MAINAPP_NAME = 'mainapp'
-
-
+MIDIFILES_PATH = os.path.join(STATIC_ROOT, MAINAPP_NAME, 'MidiFiles')
 
 
 
 # S3 Bucket CONFIG:
-
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None

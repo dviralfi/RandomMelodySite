@@ -6,12 +6,15 @@ from django.http import request
 from django.http.response import Http404
 from django.shortcuts import HttpResponse, redirect, render
 
-from random_melody_module import random_melody_generator #from the package import the module
+from mainapp.s3_methods import upload_file, get_presigned_url_file
+from random_melody_module import random_melody_generator 
                                                 
-from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_URL,MIDIFILES_PATH
+from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_ROOT, STATIC_URL,MIDIFILES_PATH
 
 from .forms import RandomArgsChoose,AtmosForm
 
+from midiutil.MidiFile import MIDIFile
+import boto3
 
 ATMOSPHERE_DICT = random_melody_generator.ATMOSPHERE_DICT
 CHROMATIC_KEYS = random_melody_generator.CHROMATIC_KEYS
@@ -96,34 +99,38 @@ def generatemidifile(request):
                 scale_key = choice(CHROMATIC_KEYS)
             if scale_type == '':
                 scale_type = choice(list(SCALES_DICT.keys()))
+
+            # File Creation :
+
+            new_file_path,midi_file =  random_melody_generator.main(
+                
+                chords_atmosphere=chords_atmosphere,
+                scale_key=scale_key,scale_type=scale_type,midi_file_path=MIDIFILES_PATH)
+
+            name = new_file_path.split("/")[-1]
+
+            with open(new_file_path,'wb') as output_file:
+                midi_file.writeFile(output_file)
+
+            response = upload_file(new_file_path)
+            
+            if response != None:
+                return redirect('generatemidifile.html')
+
+            presigned_url = get_presigned_url_file(name)
             
 
-            django_midi_files_path = MIDIFILES_PATH
-            #django_midi_files_path = 'tmp' # because Heroku is not supporting files creating
-
-            path =  random_melody_generator.main(
-                midi_file_path = django_midi_files_path,chords_atmosphere=chords_atmosphere,
-                scale_key=scale_key,scale_type=scale_type)
-            name = path.split("/")[-1]
-
-
-            print("path to midi file: ",path)
-
-            path = os.path.join(MIDIFILES_PATH, name)
-            print("Path Exists: ",os.path.exists(path))
 
         context = {
-            "file_path":path,
+            "file_path":presigned_url,
             "file_name":name,
         }
 
-        print('return: ',path)
         return render(request,'generatemidifile.html',context)
 
-    else:
+    elif request.method == 'GET':
 
         context = request.GET
-        print(context)
         return render(request,'generatemidifile.html',context)
 
 
