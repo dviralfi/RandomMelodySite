@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 
     'storages',
 
-    'django_extensions', # for validating templates, tests, etc
+    #'django_extensions', # for validating templates, tests, etc
 ]
 
 MIDDLEWARE = [
