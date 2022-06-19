@@ -4,3 +4,4 @@
 __pycache__/
 RMsite-venv/
 staticfiles/
+*.sqlite3
