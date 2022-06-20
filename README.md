@@ -11,6 +11,11 @@ You can also hear the chords & melody in the page itself.
 
 Written by *Dvir Alfi* .
 
+# [Try the website!](https://random-melody-site.herokuapp.com/)
+
+
+# Pages:
+
 ## Home Page
 ![RandomMelodySiteHomeImage](https://user-images.githubusercontent.com/91888923/161589282-49e2c621-9dba-4136-8beb-7ead018a4576.png)
 
