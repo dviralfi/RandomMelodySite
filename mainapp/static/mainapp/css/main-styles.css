@@ -1,3 +1,8 @@
+html{
+    
+height: 100%;
+}
+
 body{
     font-family: 'Roboto', sans-serif;   
     /*background-color: rgba(0,0,0,0.85);*/
@@ -8,23 +13,26 @@ body{
     background: white fixed;
     /*background: linear-gradient(60deg, #ddf2ff,#b9cfff) fixed; ORIGINAL */
     margin-left: 30px;
+    height:100%; 
+    margin:0px; 
+    padding:0px;
 
     
 }
 
 h1{
+    margin: 5px 10px 10px 5px ;
     font-family: 'Zen Kaku Gothic Antique', sans-serif;
     font-style: italic;
-    font-size:50px;
+    font-size:60px;
     top: 0;
-    color: #212136;
+    color: #2b2b2b;
     text-align:center;
-    
-
-    
-    background-color: white;
     }
 
+h1:hover{
+    color: black;
+}
 
 h2,h3{
     font-size:35px;
@@ -44,13 +52,14 @@ h4, h5, h6{
 }
 
 a{
-    text-decoration: none;
     color: rgb(0, 0, 0);
-    font-weight: 700;
+    font-weight: 600;
+    
+    text-decoration:none !important;
 }
 
 h2 > a:hover{
-    color: #212136;
+    color: #414141;
 }
 
 p{
@@ -62,34 +71,24 @@ p{
 }
 
 
-.clear {
+#footer{
     clear: both; 
     /*
     clear = clears the area of an element space, in the case both - right and left.
     */
-    height: 60px; 
-    }
-
-
-footer{
-
+    height: 80px;
     position: fixed;
-    width: 100%;
-    margin: 0 auto;  
     left: 0;
     bottom: 0;
-    border-bottom: 5px solid #212136;
+    width: 100%;
 
-    padding: 2px;
-    
-    background-color: #212136;
-    color: white;
+    color: rgb(0, 0, 0);
     text-align: center;
-    max-width: 100%;
-
-    transition: 0.8s;
-}
-
+    
+    margin-bottom: 20px;
+    margin-top: 20px;
+        
+    }
 
 
 
@@ -137,37 +136,10 @@ nav li a:hover{
     color: #ff0040;
   }
 
-/*
-nav ul:hover{
-    
-    box-shadow: 100px 100px 100px 100px lightblue inset;
-
-}
-*/
-
-#site-name{
-    font-size: 31px;
-}
-
-
-form{
-    display: -ms-inline-flexbox;
-    padding: 10px;
-    text-align: center;
-    top: 30px;
-    border: 15px solid #212136;
-    border-style:outset;
-    color: #ff0040;;
-    position: relative;
-    width: fit-content;
-    margin: auto;
-}
-
 
   /* On smaller screens, where height is less than 450px, change the width of some classes */
-  @media screen and (max-width: 450px) {
+@media screen and (max-width: 450px) {
     form {width:70%;}
-    .generate-file-button{ font-size: 5px;}
 
     
   }
@@ -202,8 +174,6 @@ hr{
 
 }
 
-
-
 #description-header{
     font-family: 'Zen Kaku Gothic Antique', sans-serif;
     font-weight: 600;
@@ -213,33 +183,6 @@ hr{
     color: #212136;
     
 }
-
-
-.oval-button{
-    width: fit-content;
-    margin: auto;
-    background-color: #212136;
-    border: none;
-    color: white;
-    padding: 30px;
-    text-align: center;
-    text-decoration: none;
-    
-    border-radius: 50%;
-    font-size: 25x;
-
-    cursor: pointer;
-    transition: 0.5s;
-
-    margin-bottom: 20px;
-
-}
-
-.oval-button:hover{
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.24),0 10px 10px 0 rgba(0,0,0,0.19);
-    font-size: 30px;
-}
-
 
 img {
     opacity: 0.8;
@@ -252,20 +195,51 @@ img:hover {
 
 .django-form>form{
     text-align: left;
-    font-weight: bold;
     color: rgb(255, 255, 255);
+
+    display: -ms-inline-flexbox;
+    padding: 10px;
+    bottom: 10px;
+
+    border: 5px solid #212136;
+    border-style:outset;
+
+    position: relative;
+    width: fit-content;
+    margin: auto;
+   
 }
 
+#generate-button{    
+    text-align: center;
+    
+
+}
 
 #download-button{
+    padding: 10px;
+    margin: 0 auto;
+    margin-top: 20px;
     text-align: center;
+    width: 100%;
 }
 
+.buttons{
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+
 .midi-player-style>midi-player {
-    margin: auto ;
+    margin-top: 30px ;
+    margin-bottom: 30px;
     width: 100%;
     left: 0;
     right: 0;
+    overflow: auto;
 }
 
 

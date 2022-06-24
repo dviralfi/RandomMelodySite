@@ -2,25 +2,35 @@
 
     background-image: url('../images/bgimg.jpg') ;
     
-    background-repeat: repeat-x;
+    background-repeat: repeat;
 
     /*background: linear-gradient(135deg, rgb(49, 173, 255),#9cd8ff) fixed;*/
     position:relative;
     display: flex;
-    border-radius:55%;
+    
     width: fit-content;
     margin: 0 auto;
     
-    margin-top: 60px;
-    margin-bottom: 60px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     
     text-align: center;
     padding: 40px;
 
     box-shadow: 0 10px 12px 0 rgba(196, 199, 248, 0.795),0 17px 70px 0 rgba(12, 170, 162, 0.19) ;
+
+    animation: animate 20s linear infinite;
 }
 
-
+@keyframes animate {
+    0%{
+        background-position: 0 0;
+    }
+    100%{
+        background-position: -1200px 0;
+    }
+    
+}
 
 
 /* On smaller screens, where height is less than 450px, change the width of some classes */
@@ -43,8 +53,6 @@
 }
 
     
-
-
 .home-description>a>p{
     margin-left: 20px;
     padding: 5px;
@@ -63,9 +71,3 @@
     text-decoration: none;
 }
 
-    
-.input-args-chices{
-    text-align: center;
-    font-size: 40px;
-    color:#444;
-}
