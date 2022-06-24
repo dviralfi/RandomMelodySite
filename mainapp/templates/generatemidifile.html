@@ -11,24 +11,22 @@
 {% block content %}       
 
      {% if file_path %}
-               <div class="midi-player-style">
-                    
-                    <midi-player  src={{ file_path }} sound-font visualizer="#myPianoRollVisualizer">> </midi-player>
-                         <br>
-                    <midi-visualizer 
-                    
-                    type="piano-roll" 
-                    id="myPianoRollVisualizer" 
-                    src= {{file_path}} >
+          <div class="midi-player-style">
+               
+               <midi-player  src={{ file_path }} sound-font visualizer="#myPianoRollVisualizer">> </midi-player>
+                    <br>
 
-                    </midi-visualizer>
+               <midi-visualizer 
+               
+               type="piano-roll" 
+               id="myPianoRollVisualizer" 
+               src= {{file_path}} >
 
-               </div>
+               </midi-visualizer>
 
+          </div>
+          <br>
      {% endif %}
-
-
-<h2 class="oval-button"><a href="/" >&#129076;&#129076;&#129076;Generate Something Else!</a></h2>
 
 {% endblock  %}
 
@@ -38,12 +36,28 @@
 
      {% if file_path %}
 
-          <div id='download-button'>
-               <a href= {{file_path}} download> Download MIDI file </a> 
-          </div>
+     <div id="download-button">
+               
+          <a href= {{file_path}} download class="btn btn-outline-dark btn-lg" role="button" aria-pressed="true"> Download MIDI file 
+
+          </a> 
+
+     </div>
+
 
      {% endif %}
+     <div id="download-button">
 
-     <h2><a href="/convertmidi"><i><u> Convert here MIDI to MP3 ! &#129078;&#129078;&#129078;</u></i></a></h2>
-
+          <a href="{% url 'home' %}" class="btn btn-light" role="button" aria-pressed="true"> Generate Again! !
+               
+          </a>
+          
+     </div>
+     <div id="download-button">
+          <a href="{% url 'convertmidi' %}" class="btn btn-light" role="button" aria-pressed="true"> Convert here MIDI to MP3 !
+               
+          </a>
+     </div>
+     
+          
 {% endblock  %}

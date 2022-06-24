@@ -4,14 +4,15 @@
 <html lang="en">
 
 <head>
-    
+     <!--Importing CSS file -->
 
-    <!--Importing CSS file -->
-    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/main-styles.css' %}">
+      <!--Importing BootStrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
+
+    
     <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/navbar-styles.css' %}">
-    
 
-
+    <link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/main-styles.css' %}">
 
     {% block extra_css %}
 
@@ -72,69 +73,38 @@
           document.getElementById("main").style.marginLeft= "0";
         }
         </script>
-
-
-
-                <!--
-
-         <div id="navbar">
-                    {% block  navbar %}
-                <nav>
-                    <ul>
-                
-                <li><a href="{% url 'home' %}" id="site-name">Random Melody</a></li>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-                <li><a href="{% url 'scales' %}">Scales</a></li>
-                <li><a href="{% url 'chords' %}">Chords</a></li>
-                <li><a href="{% url 'chordprogs' %}">Chord Progressions</a></li>
-                <li><a href="{% url 'convertmidi' %}">Convert MIDI To MP3</a></li>
-                    {% endblock %}
-                </ul>
-            </nav>
-        </div>
-                -->
-
     
     
                 <!--The Main Header -->
-    <div id="mainheader">
-         {% block  mainheader %}
-            <a href="{% url 'home' %}">
-                <h1>Random Melody - Random Music Maker</h1>
-                
-            </a>
 
-            {% endblock %}
-    </div>
+    {% block  mainheader %}
+        <a href="{% url 'home' %}">
+            <h1>Random Melody - Random Music Maker</h1>
+        </a>
+    {% endblock %}
 
     <!--The Rest of the Content -->
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>  
-
-
+    {% block content %}{% endblock %}
+   
     <!--The File Button -->
-    <div>
-        {% block filebutton %} {% endblock %} 
-    </div>
+    {% block filebutton %} {% endblock %} 
+
   
     <!--The Footer -->
-    <div class="clear">
-        {% block footer %}
-            <footer>This website is built by <a href="/contact"><i>Dvir Alafi</i></a></footer>
-        {% endblock%}
-    </div>
     
-
-
-
-
-
+    <!--
+    <div id="footer">
+           
+        
+            This website is built by 
+            <a href="{% url 'contact' %}">
+                Dvir Alafi</a>
+                        
+                <a href="https://github.com/dviralfi/RandomMelodySite">
+                       GitHub </a>
+    </div>
+-->
 </body>
-
-
 
 
 </html>

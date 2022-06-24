@@ -3,7 +3,7 @@
 {% block content %}
 <h2>Find Chords And Chord Progressions</h2>
 
-<form method="POST" action="/chords">
+<form method="POST" action="{% url 'chords' %}">
 
 {% csrf_token %}
 

@@ -8,7 +8,7 @@
 {% if not chords_dict %}
     <div class="django-form">
 
-        <form method="POST" action="/chordprogs">
+        <form method="POST" action="{% url 'chordprogs' %}">
 
             {% csrf_token %}
             {{ atmos_form.as_p }}

@@ -19,16 +19,20 @@
     </div>
 -->
 
-<h2> Choose your erguments for the program:</h2>
-    <div class="django-form"> 
+<div class="django-form"> 
 
-        <form method="POST" action="/generatemidifile" name="random_arg_choices">
+        <form method="POST" action="/generatemidifile" name="random_arg_choices" >
             {% csrf_token %}
             {{ random_arg_choices_form.as_p }}
 
-            <div class="input-args-chices">
-                <input  type="submit" value = "Click me to Generate Random Music">
-            </div>
+            
+                <div id="generate-button">
+                    <button type="submit" class="btn btn-outline-dark btn-lg" >
+                        Click me to Generate Random Music
+                    </button>
+                </div>
+               
+            
         </form>
 
     </div>

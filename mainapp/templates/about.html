@@ -1,8 +1,10 @@
 {% extends "base.html" %} 
 
 {% block content %}
+<br>
 
     <h2>About This Website:</h2>
+    <br>
 
     <ul>
         <li><p><i>Automatic Music Maker</i> 🔊</p></li>
@@ -15,7 +17,7 @@
 
         <li><p>It provides a MIDI file that contains <strong>chords</strong> 🎶 and <strong>melody</strong> 🎵 , written totally randomly by the program. </p></li>
 
-        <li><p>Written by <a href="/contact" style="color: inherit;"><i><u>Dvir Alfi</u></i></a> . </p></li>
+        <li><p>Written by <a href="{% url 'contact' %}" style="color: inherit;"><i><u>Dvir Alfi</u></i></a> . </p></li>
             
     </ul>
     

@@ -1,15 +1,27 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<h2>Convert MIDI to MP3</h2>
-<h3 style="color:red;font-size:70px;">Sorry - Curentlly Not Available !!! </h3>
+<h2>Convert MIDI to MP3</h2><br>
 
-        <form action="#" style="font-size:30px;">
-                        
-                        <label for="myfile" style="color:rgb(15, 64, 97);">Convert here your MIDI file to MP3:&nbsp;&nbsp;</label>
-                        <input type="file" id="File" name="filename"><br><br>
+        <form method="POST" action="{% url 'convertmidi' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                        <label for="myfile">Convert here your MIDI file to MP3:
+
+                        </label>
+
+                        <input type="file" id="File" name="midifile">
                         <input type="submit" >
         </form>
+        
+
+
+
+
+        {% if file_path %}
+
+               
+
+        {% endif %}
         
 {% endblock %}
 
