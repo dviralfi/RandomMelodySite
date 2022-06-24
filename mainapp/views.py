@@ -1,34 +1,38 @@
 import os
 from random import choice
-from django import forms
+from telnetlib import STATUS
+from django.http import HttpResponseBadRequest
 
-from django.http import request
 from django.http.response import Http404
 from django.shortcuts import HttpResponse, redirect, render
 
-from mainapp.s3_methods import upload_file, get_presigned_url_file
+
+from mainapp.s3_methods import upload_file, get_presigned_url_of_file
 from random_melody_module import random_melody_generator 
                                                 
 from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_ROOT, STATIC_URL,MIDIFILES_PATH
 
-from .forms import RandomArgsChoose,AtmosForm
+from .forms import RandomArgsForm, ChordsProgressionsForm
 
-from midiutil.MidiFile import MIDIFile
-import boto3
 
 ATMOSPHERE_DICT = random_melody_generator.ATMOSPHERE_DICT
 CHROMATIC_KEYS = random_melody_generator.CHROMATIC_KEYS
 SCALES_DICT = random_melody_generator.SCALES_DICT
 
 def home(request):
-
+    """
+    Home Page view
+    """
     context = {
-        'random_arg_choices_form':RandomArgsChoose()
+        'random_arg_choices_form':RandomArgsForm()
     }
     return render(request, 'home.html', context)
 
 
 def about(request):
+    """
+    About the website view
+    """
     return render(request, "about.html", {})
 
 
@@ -37,6 +41,9 @@ def contact(request):
 
 
 def chords(request):
+    """
+    Get Chords of specific music scale view
+    """
 
     if request.method == 'POST':
         
@@ -74,56 +81,66 @@ def chords(request):
 
 
 def convert_midi(request):
-    return render(request,'convertmidi.html',{})
+    """
+    Convert Midi file to MP3 view
+    """
+
+    context = {}
+
+    if request.method == "POST":
+        file_path = os.path.abspath(request.FILES['midifile'].name)
+        print("CONVERT_MIDI:absolute path midi file: ",file_path)
+
+        context = {
+            "file_path":file_path
+        }
+
+    return render(request,'convertmidi.html',context)
 
 
 def generatemidifile(request):
-    print('Generate Midi File !!!')
-    random_args = RandomArgsChoose()
-    path = ''
-    name = ''
+    """
+    Generate New Midi file view
+    """
+
+    random_args = RandomArgsForm()
+    
     if request.method == 'POST' :
-        random_args = RandomArgsChoose(request.POST)
+        random_args = RandomArgsForm(request.POST)
 
         if random_args.is_valid():
             chords_atmosphere = random_args.cleaned_data['chords_atmosphere']
             scale_key = random_args.cleaned_data['scale_key']
             scale_type = random_args.cleaned_data['scale_type']
 
-
-            if chords_atmosphere == "":
-                print(ATMOSPHERE_DICT.keys())
-                chords_atmosphere = choice(list(ATMOSPHERE_DICT.keys()))
+            if not chords_atmosphere: chords_atmosphere = choice(list(ATMOSPHERE_DICT.keys()))
+            if not scale_key: scale_key = choice(CHROMATIC_KEYS)
+            if not scale_type: scale_type = choice(list(SCALES_DICT.keys()))
                 
-            if scale_key == '':
-                scale_key = choice(CHROMATIC_KEYS)
-            if scale_type == '':
-                scale_type = choice(list(SCALES_DICT.keys()))
 
             # File Creation :
 
-            new_file_path,midi_file =  random_melody_generator.main(
+            new_file_path, midi_file =  random_melody_generator.main(
                 
                 chords_atmosphere=chords_atmosphere,
                 scale_key=scale_key,scale_type=scale_type,midi_file_path=MIDIFILES_PATH)
 
             name = new_file_path.split("/")[-1]
 
+            # Create file in MIDIFILES_PATH in heroku/local machine (depends if deployed)
             with open(new_file_path,'wb') as output_file:
                 midi_file.writeFile(output_file)
 
+            # Uploads file to AWS S3 Bucket
             response = upload_file(new_file_path)
             
-            if response != None:
-                return redirect('generatemidifile.html')
+            if response != None: return HttpResponseBadRequest(response)
 
-            presigned_url = get_presigned_url_file(name)
+            presigned_url = get_presigned_url_of_file(name)
             
-
 
         context = {
             "file_path":presigned_url,
-            "file_name":name,
         }
 
         return render(request,'generatemidifile.html',context)
@@ -161,7 +178,6 @@ def scales(request):
             if len(scale_notes) == c+1:
                 break
 
-        print(chords_type_in_scales_dict)
 
 
         try:
@@ -184,7 +200,7 @@ def scales(request):
         except Exception:
             return HttpResponse(Http404)  
 
-    else: #  request.method == 'GET'...
+    elif request.method == 'GET':
 
         chromatic_keys = random_melody_generator.CHROMATIC_KEYS
         types = random_melody_generator.SCALES_DICT.keys()
@@ -197,9 +213,9 @@ def scales(request):
 
 
 def chordprogs(request):
-    atmos_form = AtmosForm()
+    atmos_form = ChordsProgressionsForm()
     if request.method == 'POST':
-        atmos_form = AtmosForm(request.POST)
+        atmos_form = ChordsProgressionsForm(request.POST)
 
         if atmos_form.is_valid():
             atmosphere = atmos_form.cleaned_data['atmosphere']
@@ -208,7 +224,6 @@ def chordprogs(request):
 
 
             if atmosphere == "":
-                print(ATMOSPHERE_DICT.keys())
                 atmosphere = choice(list(ATMOSPHERE_DICT.keys()))
                 
             if scale_key == '':
@@ -241,6 +256,6 @@ def chordprogs(request):
 
 
         context = {
-        'atmos_form':AtmosForm()
+        'atmos_form':ChordsProgressionsForm()
                   }
         return render(request, 'chordprogs.html',context)

@@ -1,5 +1,6 @@
-import boto3
 import os
+import boto3
+
 
 BUCKET_NAME = "random-melody-site-bucket-dviralafi"
 
@@ -17,7 +18,7 @@ def upload_file(file_path):
     return response
 
 
-def get_presigned_url_file(file_name):
+def get_presigned_url_of_file(file_name):
     presigned_url = boto3.client(
                 's3',
             aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')

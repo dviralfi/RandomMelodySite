@@ -20,7 +20,7 @@ TYPES_CHOICES = (random_choice,) + tuple( [ (x,x.capitalize(),) for x in SCALES_
 
 
 
-class RandomArgsChoose(forms.Form):
+class RandomArgsForm(forms.Form):
 
     scale_type = forms.ChoiceField(choices = TYPES_CHOICES,initial=random_choice,required=False)
 
@@ -33,7 +33,7 @@ class RandomArgsChoose(forms.Form):
     bpm = forms.IntegerField(max_value=240,help_text=bpm_help_text,initial=120)
 
 
-class AtmosForm(forms.Form):
+class ChordsProgressionsForm(forms.Form):
 
     atmosphere = forms.ChoiceField(choices = ATMO_CHOICES, help_text=chords_atmosphere_help_text,initial=random_choice,required=False)
 
