@@ -10,6 +10,17 @@
 
 {% block content %}       
 
+
+     {% if messages %}
+     <ul class="messages">
+     {% for message in messages %}
+     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+     {% endfor %}
+     </ul>
+     {% endif %}
+
+
+
      {% if file_path %}
           <div class="midi-player-style">
                
@@ -43,6 +54,18 @@
           </a> 
 
      </div>
+
+     {% if file_name %}
+     <div id="download-button">
+
+          <a href="save_midi_file_for_user/{{file_name}}" class="btn btn-light" role="button" aria-pressed="true"> Save file for downloading later
+               
+          </a>
+          
+     </div>
+     {%endif%}
+
+
 
 
      {% endif %}

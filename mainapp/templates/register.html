@@ -1,0 +1,24 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+
+<h2>Register Now!</h2>
+<div class="django-form"> 
+    <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+    </form>
+</div>
+
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    
+{% endblock %}

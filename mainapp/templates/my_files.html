@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+
+
+{% block content %}  
+
+    {% if files_list%}
+
+
+        {% for file in files_list%}
+            <p>
+                <a href={{file.get_presigned_url}} > {{file}} </a>
+            </p>
+        {%endfor%}
+
+    {%endif%}
+
+{%endblock%}
