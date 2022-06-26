@@ -1,13 +1,18 @@
+from multiprocessing import context
 import os
 from random import choice
-from telnetlib import STATUS
-from django.http import HttpResponseBadRequest
 
+from django.http import HttpResponseBadRequest
 from django.http.response import Http404
 from django.shortcuts import HttpResponse, redirect, render
+from django.contrib.auth.forms import UserCreationForm  
+from django.contrib.auth import login, authenticate,logout
+from django.contrib.auth.forms import AuthenticationForm 
+from django.contrib.auth.decorators import login_required
 
+from django.contrib import messages
 
-from mainapp.s3_methods import upload_file, get_presigned_url_of_file
+from mainapp.s3_methods import delete_uploaded_file, upload_file, get_presigned_url_of_file
 from random_melody_module import random_melody_generator 
                                                 
 from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_ROOT, STATIC_URL,MIDIFILES_PATH
@@ -19,12 +24,14 @@ ATMOSPHERE_DICT = random_melody_generator.ATMOSPHERE_DICT
 CHROMATIC_KEYS = random_melody_generator.CHROMATIC_KEYS
 SCALES_DICT = random_melody_generator.SCALES_DICT
 
-def home(request):
+def home(request,*args,**kwargs):
     """
     Home Page view
     """
+    user = request.user    
     context = {
-        'random_arg_choices_form':RandomArgsForm()
+        'random_arg_choices_form':RandomArgsForm(),
+        'user':user
     }
     return render(request, 'home.html', context)
 
@@ -34,6 +41,51 @@ def about(request):
     About the website view
     """
     return render(request, "about.html", {})
+
+
+def register_request(request):
+
+    if request.method == 'POST':  
+        form = UserCreationForm(data=request.POST)  
+        if form.is_valid():  
+            user = form.save()  
+
+            messages.success(request, 'Account created successfully')  
+            login(request, user)
+
+            return redirect('home')
+    else:  
+        form = UserCreationForm()  
+        return render(request, 'register.html', context={'form':form})  
+
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("home")
+            else:
+                print(messages)
+                messages.error(request,"Invalid username or password.")
+        
+        else:
+            messages.error(request,"Form Not Valid")
+            return redirect("login")
+
+    else:    
+        form = AuthenticationForm()
+        return render(request, "login.html", context={"form":form})
+
+
+def logout_request(request):
+    logout(request)
+    return redirect('home')
 
 
 def contact(request):
@@ -98,11 +150,11 @@ def convert_midi(request):
     return render(request,'convertmidi.html',context)
 
 
-def generatemidifile(request):
+def generatemidifile(request,*args,**kwargs):
     """
     Generate New Midi file view
     """
-
+    username = request.user.username
     random_args = RandomArgsForm()
     
     if request.method == 'POST' :
@@ -118,29 +170,27 @@ def generatemidifile(request):
             if not scale_type: scale_type = choice(list(SCALES_DICT.keys()))
                 
 
-            # File Creation :
+            # File Creation : (Create file in MIDIFILES_PATH in heroku/local machine (depends if deployed))
 
-            new_file_path, midi_file =  random_melody_generator.main(
-                
+            new_file_path =  random_melody_generator.main(
+                username=username,
                 chords_atmosphere=chords_atmosphere,
                 scale_key=scale_key,scale_type=scale_type,midi_file_path=MIDIFILES_PATH)
 
-            name = new_file_path.split("/")[-1]
+            file_name = new_file_path.split("/")[-1]
 
-            # Create file in MIDIFILES_PATH in heroku/local machine (depends if deployed)
-            with open(new_file_path,'wb') as output_file:
-                midi_file.writeFile(output_file)
-
+        
             # Uploads file to AWS S3 Bucket
             response = upload_file(new_file_path)
             
             if response != None: return HttpResponseBadRequest(response)
 
-            presigned_url = get_presigned_url_of_file(name)
+            presigned_url = get_presigned_url_of_file(file_name)
             
-
+        print(file_name)
         context = {
             "file_path":presigned_url,
+            "file_name":file_name,
         }
 
         return render(request,'generatemidifile.html',context)
@@ -150,6 +200,26 @@ def generatemidifile(request):
         context = request.GET
         return render(request,'generatemidifile.html',context)
 
+@login_required
+def save_midi_file_for_user(request,*args,**kwargs):
+    user_object = request.user
+    file_name = kwargs["file_name"]
+
+    # Adds the name of file to user's files in the DB:
+    user_object.midi_files.create(file_name=file_name)
+    context = {
+        "file_path":get_presigned_url_of_file(file_name)
+        }
+    return render(request,'generatemidifile.html', context )
+                    
+    
+@login_required
+def get_my_files(request):
+    user_object = request.user
+    context = {
+        'files_list' : user_object.midi_files.all()
+    }
+    return render(request,'my_files.html',context)
 
 def scales(request):
 
