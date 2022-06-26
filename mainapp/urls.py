@@ -11,6 +11,11 @@ urlpatterns = [
     path('convertmidi',views.convert_midi,name="convertmidi"),
     path('generatemidifile',views.generatemidifile,name="generatemidifile"),
     path('chordprogs',views.chordprogs,name="chordprogs"),
+    path('register',views.register_request,name="register"),
+    path('login',views.login_request,name="login"),
+    path('logout',views.logout_request,name="logout"),
+    path('save_midi_file_for_user/<str:file_name>',views.save_midi_file_for_user,name='save_midi_file_for_user'),
     
+    path('my_files',views.get_my_files,name="my_files"),
     
 ]
