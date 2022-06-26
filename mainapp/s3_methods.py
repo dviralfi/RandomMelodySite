@@ -31,3 +31,13 @@ def get_presigned_url_of_file(file_name):
                 },
             ExpiresIn=3600)
     return presigned_url
+
+
+def delete_uploaded_file(file_name):
+    s3_client = boto3.resource(
+        's3',aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
+        )
+    s3_client.Object(BUCKET_NAME, file_name).delete()
+
+
+
