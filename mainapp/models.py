@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from mainapp.s3_methods import get_presigned_url_of_file
+from mainapp.views import delete_midi_file
 
 
 class MidiFile(models.Model):
@@ -15,6 +16,8 @@ class MidiFile(models.Model):
     def __str__(self):
         return self.file_name
     class Meta:
-        ordering = ["creation_date"]
+        ordering = ["file_name"]
+
+    
 
 
