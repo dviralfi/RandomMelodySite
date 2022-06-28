@@ -162,6 +162,7 @@ def generatemidifile(request,*args,**kwargs):
                 scale_key=scale_key,scale_type=scale_type,midi_file_path=MIDIFILES_PATH)
 
             # Uploads file to AWS S3 Bucket
+            file_path = os.path.join(MIDIFILES_PATH, temp_file_name)
             response = upload_file(file_path)
             
             if response != None: 
