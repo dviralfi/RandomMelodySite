@@ -1,4 +1,3 @@
-from multiprocessing import context
 import os
 from random import choice
 
@@ -12,8 +11,10 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
-from mainapp.s3_methods import delete_uploaded_file, upload_file, get_presigned_url_of_file
+from mainapp.s3_methods import upload_file, get_presigned_url_of_file
+from mainapp.file_creation_methods import clean_junk_files, get_unique_file_name
 from random_melody_module import random_melody_generator 
+
                                                 
 from RandomMelodySite.settings import BASE_DIR, MAINAPP_NAME, STATIC_ROOT, STATIC_URL,MIDIFILES_PATH
 
@@ -24,14 +25,14 @@ ATMOSPHERE_DICT = random_melody_generator.ATMOSPHERE_DICT
 CHROMATIC_KEYS = random_melody_generator.CHROMATIC_KEYS
 SCALES_DICT = random_melody_generator.SCALES_DICT
 
+
 def home(request,*args,**kwargs):
     """
     Home Page view
     """
-    user = request.user    
     context = {
         'random_arg_choices_form':RandomArgsForm(),
-        'user':user
+        
     }
     return render(request, 'home.html', context)
 
@@ -53,13 +54,22 @@ def register_request(request):
             messages.success(request, 'Account created successfully')  
             login(request, user)
 
+            next_page = ''
+            if "next" in request.GET:
+                next_page = request.GET['next'] 
+            
+
+            if next_page.startswith("/save_midi_file_for_user"):
+                file_name = next_page.split("/")[2]
+                return save_midi_file_for_user(request, file_name=file_name)
+
             return redirect('home')
     else:  
         form = UserCreationForm()  
         return render(request, 'register.html', context={'form':form})  
 
 
-def login_request(request):
+def login_request(request,*args, **kwargs):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -69,13 +79,24 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
+
+                next_page = ''
+                if "next" in request.GET:
+                    next_page = request.GET['next'] 
+
+                if next_page.startswith("/save_midi_file_for_user"):
+                    file_name = next_page.split("/")[2]
+                    return save_midi_file_for_user(request, file_name=file_name)
+
+                if next_page:
+                    return redirect(request.GET.get('next'))
                 return redirect("home")
             else:
                 print(messages)
                 messages.error(request,"Invalid username or password.")
         
         else:
-            messages.error(request,"Form Not Valid")
+            messages.error(request,"Invalid username or password.")
             return redirect("login")
 
     else:    
@@ -83,78 +104,41 @@ def login_request(request):
         return render(request, "login.html", context={"form":form})
 
 
+@login_required
 def logout_request(request):
+    clean_junk_files(request.user)
     logout(request)
+    messages.info(request, f"{request.user.username} You are now logged out .")
     return redirect('home')
 
 
-def contact(request):
-    return render(request,"contact.html", {})
+@login_required
+def delete_account(request):
+    user_object = request.user
+    clean_junk_files(user_object)
+    user_object.delete()
+    messages.success(request, "The user {} is deleted".format(user_object.username))  
+    return redirect('home')
 
 
-def chords(request):
-    """
-    Get Chords of specific music scale view
-    """
-
-    if request.method == 'POST':
-        
-        chord_note = request.POST.get('Notes', None)
-        chord_type = request.POST.get('Types', None)
-
-        chromatic_keys = random_melody_generator.CHROMATIC_KEYS
-
-        chord_notes = random_melody_generator.get_chord_notes_by_note_and_type(chord_note,chord_type)
-
-        try:
-            context = {
-                "chromatic_keys":chromatic_keys,
-                "chord_types":list(random_melody_generator.CHORDS_SEQUENCE_DICT.keys()),
-                "chord_seqs":random_melody_generator.CHORDS_SEQUENCE_DICT.values(),
-
-                "chord_notes":chord_notes,
-                "chord_note":chord_note,
-                "chord_type":chord_type.capitalize()
-            }
-            
-            return render(request,'chords.html',context)
-        except Exception:
-            return HttpResponse(Http404)  
-
-    else:
-        context = {
-
-        "chromatic_keys":random_melody_generator.CHROMATIC_KEYS,
-        "chord_types":random_melody_generator.CHORDS_SEQUENCE_DICT.keys(),
-        "chord_seqs":random_melody_generator.CHORDS_SEQUENCE_DICT.values(),
-
-                  }
-        return render(request, 'chords.html',context)
-
-
-def convert_midi(request):
-    """
-    Convert Midi file to MP3 view
-    """
-
-    context = {}
-
-    if request.method == "POST":
-        file_path = os.path.abspath(request.FILES['midifile'].name)
-        print("CONVERT_MIDI:absolute path midi file: ",file_path)
-
-        context = {
-            "file_path":file_path
-        }
-
-    return render(request,'convertmidi.html',context)
+@login_required
+def delete_midi_file(request,*args,**kwargs):
+    file_name = kwargs["file"]
+    file = request.user.midi_files.get(file_name=file_name)
+    file.delete()
+    
+    messages.success(request, "The Midi File: {} is deleted".format(file_name)) 
+    kwargs = {}
+    return get_my_files(request) 
 
 
 def generatemidifile(request,*args,**kwargs):
     """
     Generate New Midi file view
     """
+
     username = request.user.username
+    
     random_args = RandomArgsForm()
     
     if request.method == 'POST' :
@@ -169,28 +153,31 @@ def generatemidifile(request,*args,**kwargs):
             if not scale_key: scale_key = choice(CHROMATIC_KEYS)
             if not scale_type: scale_type = choice(list(SCALES_DICT.keys()))
                 
-
+            temp_file_name = os.getlogin()+"PC_RandomMelody.mid"
             # File Creation : (Create file in MIDIFILES_PATH in heroku/local machine (depends if deployed))
-
-            new_file_path =  random_melody_generator.main(
-                username=username,
+            file_path =  random_melody_generator.main(
+                file_name=temp_file_name,
                 chords_atmosphere=chords_atmosphere,
                 scale_key=scale_key,scale_type=scale_type,midi_file_path=MIDIFILES_PATH)
 
-            file_name = new_file_path.split("/")[-1]
-
-        
             # Uploads file to AWS S3 Bucket
-            response = upload_file(new_file_path)
+            response = upload_file(file_path)
             
-            if response != None: return HttpResponseBadRequest(response)
+            if response != None: 
+                return HttpResponseBadRequest(response)
+            
+            # delete file locally after uploading
+            # os.remove(file_path)
 
-            presigned_url = get_presigned_url_of_file(file_name)
+            presigned_url = get_presigned_url_of_file(temp_file_name)
+
             
-        print(file_name)
+            #presigned_url = file_path
+            #print("local path of midi file: ",presigned_url)
+            
         context = {
             "file_path":presigned_url,
-            "file_name":file_name,
+            "file_name":temp_file_name,
         }
 
         return render(request,'generatemidifile.html',context)
@@ -200,16 +187,37 @@ def generatemidifile(request,*args,**kwargs):
         context = request.GET
         return render(request,'generatemidifile.html',context)
 
+
 @login_required
 def save_midi_file_for_user(request,*args,**kwargs):
     user_object = request.user
-    file_name = kwargs["file_name"]
+    old_file_path = os.path.join(MIDIFILES_PATH, kwargs["file_name"])
+
+    print(user_object.midi_files.all())
+
+    if user_object.midi_files.count() == 0:
+        new_file_name = user_object.username + '_RandoMMelody_1.mid'
+    else:
+        new_file_name = get_unique_file_name(user_object.midi_files.last().file_name)
+     
+    new_file_path = os.path.join(MIDIFILES_PATH, new_file_name)
+    print('old:',old_file_path)
+    print('new:',new_file_path)
+    print(os.path.exists(old_file_path))
+    os.renames(old_file_path, new_file_path)
+
+        # Uploads file to AWS S3 Bucket
+    response = upload_file(new_file_path)
+    if response != None: 
+        return HttpResponseBadRequest(response)
 
     # Adds the name of file to user's files in the DB:
-    user_object.midi_files.create(file_name=file_name)
+    user_object.midi_files.create(file_name=new_file_name)
+
     context = {
-        "file_path":get_presigned_url_of_file(file_name)
+        "file_path":get_presigned_url_of_file(new_file_name)
         }
+
     return render(request,'generatemidifile.html', context )
                     
     
@@ -220,6 +228,7 @@ def get_my_files(request):
         'files_list' : user_object.midi_files.all()
     }
     return render(request,'my_files.html',context)
+
 
 def scales(request):
 
@@ -329,3 +338,66 @@ def chordprogs(request):
         'atmos_form':ChordsProgressionsForm()
                   }
         return render(request, 'chordprogs.html',context)
+
+
+def chords(request):
+    """
+    Get Chords of specific music scale view
+    """
+
+    if request.method == 'POST':
+        
+        chord_note = request.POST.get('Notes', None)
+        chord_type = request.POST.get('Types', None)
+
+        chromatic_keys = random_melody_generator.CHROMATIC_KEYS
+
+        chord_notes = random_melody_generator.get_chord_notes_by_note_and_type(chord_note,chord_type)
+
+        try:
+            context = {
+                "chromatic_keys":chromatic_keys,
+                "chord_types":list(random_melody_generator.CHORDS_SEQUENCE_DICT.keys()),
+                "chord_seqs":random_melody_generator.CHORDS_SEQUENCE_DICT.values(),
+
+                "chord_notes":chord_notes,
+                "chord_note":chord_note,
+                "chord_type":chord_type.capitalize()
+            }
+            
+            return render(request,'chords.html',context)
+        except Exception:
+            return HttpResponse(Http404)  
+
+    else:
+        context = {
+
+        "chromatic_keys":random_melody_generator.CHROMATIC_KEYS,
+        "chord_types":random_melody_generator.CHORDS_SEQUENCE_DICT.keys(),
+        "chord_seqs":random_melody_generator.CHORDS_SEQUENCE_DICT.values(),
+
+                  }
+        return render(request, 'chords.html',context)
+
+
+def convert_midi(request):
+    """
+    Convert Midi file to MP3 view
+    """
+
+    context = {}
+
+    if request.method == "POST":
+        file_path = os.path.abspath(request.FILES['midifile'].name)
+        print("CONVERT_MIDI:absolute path midi file: ",file_path)
+
+        context = {
+            "file_path":file_path
+        }
+
+    return render(request,'convertmidi.html',context)
+
+
+def contact(request):
+    return render(request,"contact.html", {})
+
