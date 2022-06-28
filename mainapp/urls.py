@@ -17,5 +17,7 @@ urlpatterns = [
     path('save_midi_file_for_user/<str:file_name>',views.save_midi_file_for_user,name='save_midi_file_for_user'),
     
     path('my_files',views.get_my_files,name="my_files"),
+    path('delete_account',views.delete_account,name="delete_account"),
+    path('delete_midi_file/<str:file>',views.delete_midi_file,name="delete_midi_file"),
     
 ]
