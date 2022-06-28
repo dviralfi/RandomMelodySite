@@ -1,5 +1,5 @@
 import os
-from random import choice
+from random import choice,random
 
 from django.http import HttpResponseBadRequest
 from django.http.response import Http404
@@ -136,8 +136,6 @@ def generatemidifile(request,*args,**kwargs):
     """
     Generate New Midi file view
     """
-
-    username = request.user.username
     
     random_args = RandomArgsForm()
     
@@ -153,7 +151,7 @@ def generatemidifile(request,*args,**kwargs):
             if not scale_key: scale_key = choice(CHROMATIC_KEYS)
             if not scale_type: scale_type = choice(list(SCALES_DICT.keys()))
                 
-            temp_file_name = str(request.META['REMOTE_ADDR'])+"_PC_RandomMelody.mid"
+            temp_file_name =  "AnonymousUser_"+str(random.random())[2:]+"_RandomMelody.mid"
 
             # File Creation : (Create file in MIDIFILES_PATH in heroku/local machine (depends if deployed))
             file_path =  random_melody_generator.main(
