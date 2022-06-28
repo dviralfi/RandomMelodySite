@@ -43,39 +43,26 @@
 {% block content %} 
 
 
-{% if user %}
-
-
-
-    {% if user.is_authenticated %}
-        Hi {{ user.username }}!
-        <p><a href="{% url 'logout' %}">Log Out</a></p>
-        {% else %}
-        <p>You are not logged in</p>
-        <a href="{% url 'login' %}">Log In</a>
-    {% endif %}
-
-{% endif %}
 
     <div class="home-description">
 
         
         
-            <a href="/about">
+            <a href="{% url 'about' %}">
             <p id="description1">
             Developed to make music<br>fun, easy, and fast.
             </p>
             </a>
 
 
-            <a href="/about">
+            <a href="{% url 'about' %}">
             <p id="description2">
             <strong>Random Melody</strong> is an Automatic Music Maker Website<br> for
             musicians, composers <br>and everyone who loves music. 
             </p>
             </a>
 
-            <a href="/about">
+            <a href="{% url 'about' %}">
             <p id="description3">
             Random Melody provides a MIDI file that contains totally<br> <i>random</i> <br><strong>chords</strong> and <strong>melody.</strong>
             </p>
@@ -83,15 +70,6 @@
     </div>
 
 
-
-    
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
 
    
 {% endblock %}

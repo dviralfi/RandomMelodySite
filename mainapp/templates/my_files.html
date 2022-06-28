@@ -8,10 +8,23 @@
 
         {% for file in files_list%}
             <p>
-                <a href={{file.get_presigned_url}} > {{file}} </a>
+                {{file}}
+                <a href={{file.get_presigned_url}} > Download </a>
+            
+            
+           
+                <a href="{% url 'delete_midi_file' file=file.file_name %}"> Delete </a>
             </p>
+
         {%endfor%}
+    
+        
+    {% else %}
+
+    <p> No Files saved yet. </p>
 
     {%endif%}
+
+    <p><a href="{% url 'home' %}" ><br>Generate Now! </a></p>
 
 {%endblock%}

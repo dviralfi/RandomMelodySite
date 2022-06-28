@@ -42,11 +42,32 @@
 </head>
 
 <body>
+
+<div class="user-details">
+{% if user %}
+
+
+
+  {% if user.is_authenticated %}
+      <p>Hi <span style="color:red;">{{ user.username }}</span>!
+      <a href="{% url 'logout' %}">Log Out</a></p>
+      {% else %}
+      You are not logged in.
+      <p><a href="{% url 'login' %}">Log In</a></p>
+  {% endif %}
+
+{% endif %}
+</div>
+
+
+
+
+
      <!--The Navigation Bar -->
     <div  id="mySidebar" class="sidebar">
         
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                <a href="{% url 'home' %}" id="site-name">Random Melody</a>
+                
                 <a href="{% url 'home' %}">Home</a>
                 <a href="{% url 'about' %}">About</a>
                 <a href="{% url 'register' %}">Register</a>
@@ -57,7 +78,7 @@
                 <a href="{% url 'chords' %}">Chords</a>
                 <a href="{% url 'chordprogs' %}">Chord Progressions</a>
                 <a href="{% url 'convertmidi' %}">Convert MIDI To MP3</a>
-
+                <a href="{% url 'delete_account' %}">Delete My Account</a>
     </div>
 
                 
@@ -87,9 +108,30 @@
         </a>
     {% endblock %}
 
+
+
+   
+    {% if messages %}
+        <div class="alert alert-primary" role="alert">
+
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+  
+        </div>
+    {% endif %}
+
+
     <!--The Rest of the Content -->
     {% block content %}{% endblock %}
    
+
+    
+      
+
+
     <!--The File Button -->
     {% block filebutton %} {% endblock %} 
 
