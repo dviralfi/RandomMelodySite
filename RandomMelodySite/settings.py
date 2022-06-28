@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     'mainapp',
 
     'storages',
@@ -130,6 +130,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URL = '/'
 
 MAINAPP_NAME = 'mainapp'
 
