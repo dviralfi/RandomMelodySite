@@ -1,6 +1,6 @@
 import os
 import boto3
-
+from pathlib import Path
 
 BUCKET_NAME = "random-melody-site-bucket-dviralafi"
 
@@ -11,7 +11,7 @@ def upload_file(file_path):
         's3',aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
         )
 
-    file_name = file_path.split("\\")[-1]
+    file_name = Path(file_path).name
 
     response = s3_client.upload_file(file_path, BUCKET_NAME, file_name)
 
