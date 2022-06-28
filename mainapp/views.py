@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
-from mainapp.s3_methods import upload_file, get_presigned_url_of_file
+from mainapp.s3_methods import delete_uploaded_file, upload_file, get_presigned_url_of_file
 from mainapp.file_creation_methods import clean_junk_files, get_unique_file_name
 from random_melody_module import random_melody_generator 
 
@@ -153,7 +153,8 @@ def generatemidifile(request,*args,**kwargs):
             if not scale_key: scale_key = choice(CHROMATIC_KEYS)
             if not scale_type: scale_type = choice(list(SCALES_DICT.keys()))
                 
-            temp_file_name = os.getlogin()+"PC_RandomMelody.mid"
+            temp_file_name = str(request.META)+['REMOTE_ADDR']+"PC_RandomMelody.mid"
+            
             # File Creation : (Create file in MIDIFILES_PATH in heroku/local machine (depends if deployed))
             file_path =  random_melody_generator.main(
                 file_name=temp_file_name,
@@ -193,18 +194,18 @@ def save_midi_file_for_user(request,*args,**kwargs):
     user_object = request.user
     old_file_path = os.path.join(MIDIFILES_PATH, kwargs["file_name"])
 
-    print(user_object.midi_files.all())
-
     if user_object.midi_files.count() == 0:
         new_file_name = user_object.username + '_RandoMMelody_1.mid'
     else:
         new_file_name = get_unique_file_name(user_object.midi_files.last().file_name)
      
     new_file_path = os.path.join(MIDIFILES_PATH, new_file_name)
-    print('old:',old_file_path)
-    print('new:',new_file_path)
-    print(os.path.exists(old_file_path))
+    
     os.renames(old_file_path, new_file_path)
+
+    response = delete_uploaded_file(old_file_path)
+    if response != None: 
+        return HttpResponseBadRequest(response)
 
         # Uploads file to AWS S3 Bucket
     response = upload_file(new_file_path)
