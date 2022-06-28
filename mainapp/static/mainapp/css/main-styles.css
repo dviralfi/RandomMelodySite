@@ -250,3 +250,15 @@ img:hover {
     left: 0;
     right: 0;
 }
+
+
+.user-details{
+    text-align: right;
+    float: right;
+    color: #ff295f;
+    margin: 10px;
+    
+}
+.user-details>p{
+    font-size: 30px;
+}
