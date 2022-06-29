@@ -16,7 +16,7 @@ class MidiFile(models.Model):
     def __str__(self):
         return self.file_name
     class Meta:
-        ordering = ["file_name"]
+        ordering = ["pk"]
 
     
 
