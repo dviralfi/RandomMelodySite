@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
-from mainapp.s3_methods import delete_uploaded_file, upload_file, get_presigned_url_of_file
+from mainapp.s3_methods import clean_deleted_user_files, delete_uploaded_file, upload_file, get_presigned_url_of_file
 from mainapp.file_creation_methods import clean_junk_files, get_unique_file_name
 from random_melody_module import random_melody_generator 
 
@@ -34,6 +34,7 @@ def home(request,*args,**kwargs):
         'random_arg_choices_form':RandomArgsForm(),
         
     }
+    clean_junk_files()
     return render(request, 'home.html', context)
 
 
@@ -106,7 +107,7 @@ def login_request(request,*args, **kwargs):
 
 @login_required
 def logout_request(request):
-    clean_junk_files(request.user)
+    clean_junk_files()
     logout(request)
     messages.info(request, f"{request.user.username} You are now logged out .")
     return redirect('home')
@@ -115,7 +116,8 @@ def logout_request(request):
 @login_required
 def delete_account(request):
     user_object = request.user
-    clean_junk_files(user_object)
+    clean_junk_files()
+    clean_deleted_user_files(user_object.username)
     user_object.delete()
     messages.success(request, "The user {} is deleted".format(user_object.username))  
     return redirect('home')
@@ -124,12 +126,16 @@ def delete_account(request):
 @login_required
 def delete_midi_file(request,*args,**kwargs):
     file_name = kwargs["file"]
-    file = request.user.midi_files.get(file_name=file_name)
-    file.delete()
-    
-    messages.success(request, "The Midi File: {} is deleted".format(file_name)) 
-    kwargs = {}
-    return get_my_files(request) 
+    try:
+        file = request.user.midi_files.get(file_name=file_name)
+        file.delete()
+        messages.success(request, "The Midi File: {} is deleted".format(file_name)) 
+
+    except Exception as e:
+        messages.error(request, e) 
+
+            
+    return get_my_files(request)
 
 
 def generatemidifile(request,*args,**kwargs):
@@ -153,11 +159,14 @@ def generatemidifile(request,*args,**kwargs):
             if not scale_key: scale_key = choice(CHROMATIC_KEYS)
             if not scale_type: scale_type = choice(list(SCALES_DICT.keys()))
             
-            if not username:
-                username = "AnonymousUser"
             
-            temp_file_name =  username+"_"+str(random())[2:]+"_RandomMelody.mid"
+            temp_file_name =  "tmpfile_"+username+"_"+str(random())[2:]+"_RandomMelody.mid"
 
+            # if the file looks :
+
+            # user-name_Randommelody_some-number.mid -> its saved
+            # tmp_user-name_56486413548641_RandomMelody.mid -> not saved, need to delete
+            # tmp__45454554545454_RandomMelody.mid -> need to delete
 
             # File Creation : (Create file in MIDIFILES_PATH in heroku/local machine (depends if deployed))
             file_path =  random_melody_generator.main(
@@ -197,18 +206,25 @@ def generatemidifile(request,*args,**kwargs):
 @login_required
 def save_midi_file_for_user(request,*args,**kwargs):
     user_object = request.user
-    old_file_path = os.path.join(MIDIFILES_PATH, kwargs["file_name"])
+    old_file_name = kwargs["file_name"]
+    old_file_path = os.path.join(MIDIFILES_PATH, old_file_name)
 
     if user_object.midi_files.count() == 0:
         new_file_name = user_object.username + '_RandoMMelody_1.mid'
     else:
+        
         new_file_name = get_unique_file_name(user_object.midi_files.last().file_name)
+        while os.path.exists(os.path.join(MIDIFILES_PATH, new_file_name)):
+            new_file_name = get_unique_file_name(new_file_name)
+    
      
     new_file_path = os.path.join(MIDIFILES_PATH, new_file_name)
     
     os.renames(old_file_path, new_file_path)
 
-    response = delete_uploaded_file(old_file_path)
+    
+    response = delete_uploaded_file(old_file_name)
+    
     if response != None: 
         return HttpResponseBadRequest(response)
 
@@ -216,6 +232,8 @@ def save_midi_file_for_user(request,*args,**kwargs):
     response = upload_file(new_file_path)
     if response != None: 
         return HttpResponseBadRequest(response)
+
+    os.remove(new_file_path) # delete the temp file because is already uploaded 
 
     # Adds the name of file to user's files in the DB:
     user_object.midi_files.create(file_name=new_file_name)
