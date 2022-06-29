@@ -127,12 +127,15 @@ def delete_account(request):
 def delete_midi_file(request,*args,**kwargs):
     file_name = kwargs["file"]
     try:
+        delete_uploaded_file(file_name)
         file = request.user.midi_files.get(file_name=file_name)
         file.delete()
         messages.success(request, "The Midi File: {} is deleted".format(file_name)) 
 
     except Exception as e:
         messages.error(request, e) 
+
+
 
             
     return get_my_files(request)
