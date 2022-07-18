@@ -13,6 +13,7 @@ Written by *Dvir Alfi* .
 
 # [Try the website!](https://random-melody-site.herokuapp.com/)
 
+# [Hear some examples](https://youtu.be/Zkeemi33a5k)
 
 # Pages:
 
