@@ -1,6 +1,7 @@
 import os
 from random import choice,random
 
+
 from django.http import HttpResponseBadRequest
 from django.http.response import Http404
 from django.shortcuts import HttpResponse, redirect, render
@@ -50,6 +51,7 @@ def register_request(request):
     if request.method == 'POST':  
         form = UserCreationForm(data=request.POST)  
         if form.is_valid():  
+            
             user = form.save()  
 
             messages.success(request, 'Account created successfully')  
@@ -65,6 +67,9 @@ def register_request(request):
                 return save_midi_file_for_user(request, file_name=file_name)
 
             return redirect('home')
+        else:
+            messages.error(request, form.errors)
+            return redirect('register')
     else:  
         form = UserCreationForm()  
         return render(request, 'register.html', context={'form':form})  
@@ -97,7 +102,7 @@ def login_request(request,*args, **kwargs):
                 messages.error(request,"Invalid username or password.")
         
         else:
-            messages.error(request,"Invalid username or password.")
+            messages.error(request,form.errors)
             return redirect("login")
 
     else:    
@@ -148,15 +153,15 @@ def generatemidifile(request,*args,**kwargs):
     
     username = request.user.username
 
-    random_args = RandomArgsForm()
+    form = RandomArgsForm()
     
     if request.method == 'POST' :
-        random_args = RandomArgsForm(request.POST)
+        form = RandomArgsForm(request.POST)
 
-        if random_args.is_valid():
-            chords_atmosphere = random_args.cleaned_data['chords_atmosphere']
-            scale_key = random_args.cleaned_data['scale_key']
-            scale_type = random_args.cleaned_data['scale_type']
+        if form.is_valid():
+            chords_atmosphere = form.cleaned_data['chords_atmosphere']
+            scale_key = form.cleaned_data['scale_key']
+            scale_type = form.cleaned_data['scale_type']
 
             if not chords_atmosphere: chords_atmosphere = choice(list(ATMOSPHERE_DICT.keys()))
             if not scale_key: scale_key = choice(CHROMATIC_KEYS)
@@ -192,6 +197,9 @@ def generatemidifile(request,*args,**kwargs):
             
             #presigned_url = file_path
             #print("local path of midi file: ",presigned_url)
+        else:
+            messages.error(request, form.errors) 
+            return redirect('generatemidifile')
             
         context = {
             "file_path":presigned_url,
@@ -319,14 +327,14 @@ def scales(request):
 
 
 def chordprogs(request):
-    atmos_form = ChordsProgressionsForm()
+    form = ChordsProgressionsForm()
     if request.method == 'POST':
-        atmos_form = ChordsProgressionsForm(request.POST)
+        form = ChordsProgressionsForm(request.POST)
 
-        if atmos_form.is_valid():
-            atmosphere = atmos_form.cleaned_data['atmosphere']
-            scale_key = atmos_form.cleaned_data['scale_key']
-            scale_type = atmos_form.cleaned_data['scale_type']
+        if form.is_valid():
+            atmosphere = form.cleaned_data['atmosphere']
+            scale_key = form.cleaned_data['scale_key']
+            scale_type = form.cleaned_data['scale_type']
 
 
             if atmosphere == "":
