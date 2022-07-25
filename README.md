@@ -11,29 +11,35 @@ You can also hear the chords & melody in the page itself.
 
 Written by *Dvir Alfi* .
 
-# [Try the website!](https://random-melody-site.herokuapp.com/)
+# [Website Link](https://random-melody-site.herokuapp.com/)
 
-# [Hear some examples](https://youtu.be/Zkeemi33a5k)
+### [Hear some examples in YouTube!](https://youtu.be/Zkeemi33a5k)
 
-# Pages:
 
 ## Home Page
-![RandomMelodySiteHomeImage](https://user-images.githubusercontent.com/91888923/161589282-49e2c621-9dba-4136-8beb-7ead018a4576.png)
+![RandomMelodySiteHomeImage](https://user-images.githubusercontent.com/91888923/180756604-99b7569a-74ad-42b7-ae49-2097602fee7c.png)
+
 
 ## After Generating Page
-![RandomMelodySiteAfterGenratingPage](https://user-images.githubusercontent.com/91888923/161591008-56cf0dd2-524a-4bc6-a289-63b5c316fd5f.png)
+![RandomMelodySiteAfterGenratingPage](https://user-images.githubusercontent.com/91888923/180756747-1ca3fdca-80ae-497d-aafe-c3e831ec7b76.png)
 
-## Chord Notes Page
-![RandomMelodySiteAfterChorsdNotessPage](https://user-images.githubusercontent.com/91888923/161592647-543c0eac-853a-4420-a338-1449dfce15b0.png)
 
-## Chord Progressions Page
-![RandomMelodySiteAfterChorsdProgressionsPage](https://user-images.githubusercontent.com/91888923/161592290-1281d5d8-f915-45c2-8337-09a8a839f73f.png)
+## Register and Login pages
+![RegisterPage](https://user-images.githubusercontent.com/91888923/180756935-04adce98-8b85-44ab-8f16-8b77db621a1e.png)
+![LoginPage](https://user-images.githubusercontent.com/91888923/180757026-71493835-3e71-42e2-a451-b220b1420ac6.png)
+
+
+## Saved Files Page
+![SavedFilesPage](https://user-images.githubusercontent.com/91888923/180757133-9848e3e3-8ec7-4228-8c64-c2e55242e48e.png)
+
 
 ### Contact Page
-![RandomMelodySiteHomeImage](https://user-images.githubusercontent.com/91888923/161589845-1c4da820-48bc-422f-8e5a-c68094f19dbf.png)
+![RandomMelodySiteHomeImage](https://user-images.githubusercontent.com/91888923/180756822-b42a554c-5802-4e4d-b499-e2124487662b.png)
+
 
 ### About Page
-![RandomMelodySiteAboutPage](https://user-images.githubusercontent.com/91888923/161591229-9a7a813d-837d-4727-8aa7-08469bf24515.png)
+![RandomMelodySiteAboutPage](https://user-images.githubusercontent.com/91888923/180756877-09e1cd96-6e5b-424a-92a6-7862e8890e45.png)
+
 
 
 [^1]:DAW - Digital Audio Workstation
