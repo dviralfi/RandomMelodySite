@@ -11,7 +11,7 @@ You can also hear the chords & melody in the page itself.
 
 Written by *Dvir Alfi* .
 
-# [Website Link](https://random-melody-site.herokuapp.com/)
+# [Website Link](https://randommelodysite.onrender.com/)
 
 ### [Hear some examples in YouTube!](https://youtu.be/Zkeemi33a5k)
 
